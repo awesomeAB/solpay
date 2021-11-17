@@ -1,12 +1,11 @@
-import { Button, Text } from "components";
 import { Dialog, Transition } from "@headlessui/react";
-import { FC, Fragment, useEffect, useRef } from "react";
-import { useConnection, useWallet } from "@solana/wallet-adapter-react";
+import { FC, Fragment, useRef } from "react";
 
 import Image from "next/image";
+import { Text } from "components";
 import WalletConnect from "./WalletConnect";
-import { shortenAddress } from "utils";
-import toast from "react-hot-toast";
+import WalletDetails from "./WalletDetails";
+import { useWallet } from "@solana/wallet-adapter-react";
 
 interface Props {
   isOpen: boolean;
@@ -14,7 +13,6 @@ interface Props {
 }
 
 const WalletConnectModal: FC<Props> = ({ isOpen, setIsOpen }) => {
-  const { connection } = useConnection();
   const { publicKey, disconnect } = useWallet();
   const closeButtonRef = useRef(null);
 
@@ -58,18 +56,10 @@ const WalletConnectModal: FC<Props> = ({ isOpen, setIsOpen }) => {
                   />
                 </div>
                 {publicKey ? (
-                  <div className="px-8 py-4 sm:px-16">
-                    <Text className="mx-8 mb-8 text-2xl">Wallet Connected</Text>
-                    <Text className="text-xl">
-                      Address: {shortenAddress(publicKey.toBase58())}
-                    </Text>
-                    <div
-                      onClick={disconnect}
-                      className="flex justify-center w-full px-4 py-3 my-2 mt-8 border cursor-pointer sm:px-12 bg-dark rounded-2xl bg-black-100 hover:border-pink-500"
-                    >
-                      <Text>Disconnect Wallet</Text>
-                    </div>
-                  </div>
+                  <WalletDetails
+                    publicKey={publicKey}
+                    handleDisconnect={disconnect}
+                  />
                 ) : (
                   <WalletConnect />
                 )}

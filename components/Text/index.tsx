@@ -3,10 +3,11 @@ import c from "classnames";
 
 interface Props {
   className?: string;
+  color?: string;
 }
 
-const Text: FC<Props> = ({ children, className }) => {
-  return <p className={c("font-solpay text-gray-800 dark:text-snow", className)}>{children}</p>;
+const Text: FC<Props> = ({ children, className, color = "text-snow" }) => {
+  return <p className={c("font-solpay", className, color)}>{children}</p>;
 };
 
 export default Text;

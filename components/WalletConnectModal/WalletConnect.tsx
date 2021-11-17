@@ -29,9 +29,9 @@ const WalletConnect: FC = () => {
           <div
             key={wallet.name}
             onClick={() => select(wallet.name)}
-            className="flex justify-start w-full px-4 py-4 my-2 border cursor-pointer sm:px-16 bg-dark rounded-2xl bg-black-100 hover:border-pink-500"
+            className="flex justify-start w-full px-4 py-3 my-2 border cursor-pointer sm:px-16 bg-dark rounded-2xl bg-black-100 hover:border-pink-500"
           >
-            <Image src={wallet.icon} alt="wallet icon" width={30} height={30} />
+            <Image src={wallet.icon} alt="wallet icon" width={28} height={28} />
             <Text className="pl-4 text-xl">{wallet.name}</Text>
           </div>
         ))}

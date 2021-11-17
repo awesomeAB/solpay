@@ -7,17 +7,30 @@ interface Props {
   label: string;
   onClick: () => void;
   leftIcon?: string;
+  type: "positive" | "negative" | "neutral";
 }
 
-const Button: FC<Props> = ({ label, onClick, leftIcon }) => {
+const borderColor = {
+  positive: "border-green-500 hover:border-green-400",
+  negative: "border-red-400 hover:border-red-500",
+  neutral: "border",
+};
+const textColor = {
+  positive: "text-green-500 group-hover:text-green-400",
+  negative: "text-red-400 group-hover:text-red-500",
+  neutral: "",
+};
+
+const Button: FC<Props> = ({ label, onClick, leftIcon, type }) => {
   return (
     <button
-      className="flex items-center px-8 py-4 leading-none bg-gray-900 focus:outline-none rounded-xl"
       onClick={onClick}
+      className={cn(
+        "flex justify-center w-full px-4 py-3 my-2 border cursor-pointer group sm:px-12 bg-dark rounded-2xl bg-black-100",
+        borderColor[type],
+      )}
     >
-      {leftIcon ? <i className={cn("text-2xl", leftIcon)} /> : null}
-      <span className="px-6 text-primary">{label}</span>
-      {leftIcon ? <i className={cn("text-2xl", leftIcon)} /> : null}
+      <Text color={textColor[type]}>{label}</Text>
     </button>
   );
 };
