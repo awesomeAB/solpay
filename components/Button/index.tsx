@@ -12,7 +12,7 @@ interface Props {
 const Button: FC<Props> = ({ label, onClick, leftIcon }) => {
   return (
     <button
-      className="flex items-center px-8 py-4 leading-none focus:outline-none bg-gray-900 rounded-xl"
+      className="flex items-center px-8 py-4 leading-none bg-gray-900 focus:outline-none rounded-xl"
       onClick={onClick}
     >
       {leftIcon ? <i className={cn("text-2xl", leftIcon)} /> : null}

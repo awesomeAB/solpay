@@ -4,6 +4,7 @@ import {
 } from "@solana/wallet-adapter-react";
 import { FC, ReactNode, useMemo } from "react";
 import {
+  getLedgerWallet,
   getPhantomWallet,
   getSlopeWallet,
   getSolflareWallet,
@@ -28,6 +29,7 @@ export const WalletConnectionProvider: FC<{ children: ReactNode }> = ({
       getSolflareWallet(),
       getSlopeWallet(),
       getSolongWallet(),
+      getLedgerWallet(),
     ],
     [],
   );
