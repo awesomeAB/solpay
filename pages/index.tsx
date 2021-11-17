@@ -1,19 +1,20 @@
-import Head from 'next/head';
-import type { NextPage } from 'next';
+import Head from "next/head";
+import type { NextPage } from "next";
+import Text from "components/Text";
 
 const Home: NextPage = () => {
   return (
-    <div className="dark:bg-gray-800">
+    <div className="h-screen flex justify-center dark:bg-dark">
       <Head>
         <title>Solpay</title>
-        <meta name="description" content="Payments for SOLANA" />
-        <link rel="icon" href="/favicon.ico" />
+        <meta name="description" content="Start accepting Solana payments today!" />
       </Head>
 
-      <main>
-        <h1>
-          Welcome to <a href="https://nextjs.org">Next.js!</a>
-        </h1>
+      <main className="container flex flex-col items-center">
+        <section className="my-16">
+          <Text className="text-5xl">Start accepting Solana payments today!</Text>
+          <Text>It'll only take two minutes to set up.</Text>
+        </section>
       </main>
     </div>
   );
