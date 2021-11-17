@@ -1,7 +1,6 @@
 {
-  "extends": ["next/core-web-vitals", "plugin:tailwind/recommended", "plugin:prettier/recommended"],
+  "extends": ["next/core-web-vitals", "plugin:tailwind/recommended"],
   "rules": {
-    "prettier/prettier": ["error", {}, { "usePrettierrc": true }],
     "react/no-unescaped-entities": 0
   }
 }

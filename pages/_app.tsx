@@ -1,14 +1,31 @@
 import "../styles/globals.css";
 
+import { FC, ReactNode } from "react";
+
 import type { AppProps } from "next/app";
 import { ThemeProvider } from "next-themes";
+import { Toaster } from "react-hot-toast";
+import dynamic from "next/dynamic";
 
-function MyApp({ Component, pageProps }: AppProps) {
+const WalletConnectionProvider = dynamic<{ children: ReactNode }>(
+  () =>
+    import("providers/WalletConnectionProvider").then(
+      ({ WalletConnectionProvider }) => WalletConnectionProvider,
+    ),
+  {
+    ssr: false,
+  },
+);
+
+const App: FC<AppProps> = ({ Component, pageProps }: AppProps) => {
   return (
-    <ThemeProvider attribute="class" forcedTheme="dark">
-      <Component {...pageProps} />
-    </ThemeProvider>
+    <WalletConnectionProvider>
+      <ThemeProvider attribute="class" forcedTheme="dark">
+        <Component {...pageProps} />
+      </ThemeProvider>
+      <Toaster position="bottom-center" />
+    </WalletConnectionProvider>
   );
-}
+};
 
-export default MyApp;
+export default App;

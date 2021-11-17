@@ -1,25 +1,24 @@
-import { FC } from "react";
+import { FC, ReactElement } from "react";
+
 import Text from "components/Text";
 import cn from "classnames";
 
 interface Props {
   label: string;
   onClick: () => void;
+  leftIcon?: string;
 }
 
-const Button: FC<Props> = ({ label, onClick }) => {
+const Button: FC<Props> = ({ label, onClick, leftIcon }) => {
   return (
-    <div className="relative group">
-      <div className="absolute opacity-75 inset-0.5 bg-gradient-to-r from-pink-600 to-purple-600 rounded-xl filter blur-lg animate-tilt group-hover:opacity-100 transition duration-200" />
-      <button
-        className="relative flex items-center px-8 py-4 leading-none focus:outline-none bg-dark rounded-xl"
-        onClick={onClick}
-      >
-        <i className="pr-6 text-2xl text-pink-600 ri-wallet-3-line" />
-        <span className="pr-6 text-primary">{label}</span>
-        <span className="text-2xl text-indigo-100">&rarr;</span>
-      </button>
-    </div>
+    <button
+      className="flex items-center px-8 py-4 leading-none focus:outline-none bg-gray-900 rounded-xl"
+      onClick={onClick}
+    >
+      {leftIcon ? <i className={cn("text-2xl", leftIcon)} /> : null}
+      <span className="px-6 text-primary">{label}</span>
+      {leftIcon ? <i className={cn("text-2xl", leftIcon)} /> : null}
+    </button>
   );
 };
 

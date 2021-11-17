@@ -1,4 +1,4 @@
-import { Button, Text, WalletConnectModal } from "components";
+import { HeroButton, Text, WalletConnectModal } from "components";
 
 import Head from "next/head";
 import type { NextPage } from "next";
@@ -11,16 +11,23 @@ const Home: NextPage = () => {
     <div className="flex justify-center h-screen dark:bg-dark">
       <Head>
         <title>Solpay</title>
-        <meta name="description" content="Start accepting Solana payments today!" />
+        <meta
+          name="description"
+          content="Start accepting Solana payments today!"
+        />
       </Head>
 
       <main className="container flex flex-col items-center justify-center">
         <section className="px-4 mb-16 text-center">
-          <Text className="my-4 text-5xl">Start accepting Solana payments today!</Text>
-          <Text className="text-2xl ">It'll only take two minutes to set up.</Text>
+          <Text className="my-4 text-5xl">
+            Start accepting Solana payments today!
+          </Text>
+          <Text className="text-2xl ">
+            It'll only take two minutes to set up.
+          </Text>
         </section>
         <section>
-          <Button label="Live Demo" onClick={() => setIsOpen(true)} />
+          <HeroButton label="Live Demo" onClick={() => setIsOpen(true)} />
         </section>
         <WalletConnectModal isOpen={isOpen} setIsOpen={setIsOpen} />
       </main>
