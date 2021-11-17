@@ -1,3 +1,4 @@
+import Button from "components/Button";
 import Head from "next/head";
 import type { NextPage } from "next";
 import Text from "components/Text";
@@ -10,10 +11,13 @@ const Home: NextPage = () => {
         <meta name="description" content="Start accepting Solana payments today!" />
       </Head>
 
-      <main className="container flex flex-col items-center">
-        <section className="my-16">
-          <Text className="text-5xl">Start accepting Solana payments today!</Text>
-          <Text>It'll only take two minutes to set up.</Text>
+      <main className="container flex flex-col items-center justify-center">
+        <section className="mb-16 px-4 text-center">
+          <Text className="text-5xl my-4">Start accepting Solana payments today!</Text>
+          <Text className="text-2xl ">It'll only take two minutes to set up.</Text>
+        </section>
+        <section>
+          <Button label="Live Demo" />
         </section>
       </main>
     </div>
