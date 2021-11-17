@@ -16,7 +16,7 @@ const WalletConnectModal: FC<Props> = ({ isOpen, setIsOpen }) => {
   const { connection } = useConnection();
   const { wallets, select, connect, adapter, publicKey, disconnect } =
     useWallet();
-  const cancelButtonRef = useRef(null);
+  const closeButtonRef = useRef(null);
   useEffect(() => {
     if (adapter) {
       toast.promise(connect(), {
@@ -33,7 +33,7 @@ const WalletConnectModal: FC<Props> = ({ isOpen, setIsOpen }) => {
       <Dialog
         as="div"
         className="fixed inset-0 z-10 overflow-y-auto"
-        initialFocus={cancelButtonRef}
+        initialFocus={closeButtonRef}
         onClose={setIsOpen}
       >
         <div className="flex items-center justify-center min-h-screen text-center sm:p-0">
@@ -64,20 +64,20 @@ const WalletConnectModal: FC<Props> = ({ isOpen, setIsOpen }) => {
                   <i
                     className="text-4xl cursor-pointer ri-close-line"
                     onClick={() => setIsOpen(false)}
-                    ref={cancelButtonRef}
+                    ref={closeButtonRef}
                   />
                 </div>
                 {publicKey ? (
-                  <div className="mx-8 my-4">
-                    <Text className="mb-8 text-2xl">Wallet Connected</Text>
+                  <div className="px-8 py-4 sm:px-16">
+                    <Text className="mx-8 mb-8 text-2xl">Wallet Connected</Text>
                     <Text className="text-xl">
                       Address: {shortenAddress(publicKey.toBase58())}
                     </Text>
                     <div
                       onClick={disconnect}
-                      className="flex justify-start w-full px-4 py-4 my-2 mt-8 border cursor-pointer sm:px-16 bg-dark rounded-2xl bg-black-100 hover:border-pink-500"
+                      className="flex justify-center w-full px-4 py-3 my-2 mt-8 border cursor-pointer sm:px-12 bg-dark rounded-2xl bg-black-100 hover:border-pink-500"
                     >
-                      <Text>Disconnect</Text>
+                      <Text>Disconnect Wallet</Text>
                     </div>
                   </div>
                 ) : (
