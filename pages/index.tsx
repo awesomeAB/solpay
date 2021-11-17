@@ -20,7 +20,7 @@ const Home: NextPage = () => {
       <main className="container flex flex-col items-center justify-center">
         <section className="px-4 mb-16 text-center">
           <Text className="my-4 text-5xl">
-            Start accepting Solana payments today!
+            Start accepting SOLANA payments today!
           </Text>
           <Text className="text-2xl ">
             It'll only take two minutes to set up.
