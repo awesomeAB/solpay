@@ -1,3 +1,11 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@media screen {
+  min-width: 640px;
+}
+.demo-modal {
+  min-height: 530px;
+  min-width: 420px;
+}

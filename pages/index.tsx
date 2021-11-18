@@ -26,9 +26,7 @@ const Home: NextPage = () => {
             It'll only take two minutes to set up.
           </Text>
         </section>
-        <section>
-          <HeroButton label="Live Demo" onClick={() => setIsOpen(true)} />
-        </section>
+        <HeroButton label="Live Demo" onClick={() => setIsOpen(true)} />
         <WalletConnectModal isOpen={isOpen} setIsOpen={setIsOpen} />
       </main>
     </div>

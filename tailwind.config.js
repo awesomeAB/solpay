@@ -9,6 +9,7 @@ module.exports = {
       colors: {
         dark: "#08070B",
         snow: "#f2f2f2",
+        solanaGreen: "#07C596",
       },
       animation: {
         tilt: "tilt 10s infinite linear",

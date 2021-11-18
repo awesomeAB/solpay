@@ -10,10 +10,11 @@ import useUserBalance from "hooks/useUserBalance";
 interface Props {
   publicKey: PublicKey;
   handleDisconnect: () => Promise<void>;
+  goBack: () => void;
   className?: string;
 }
 
-const WalletDetails: FC<Props> = ({ publicKey, handleDisconnect }) => {
+const WalletDetails: FC<Props> = ({ publicKey, handleDisconnect, goBack }) => {
   const { balance } = useUserBalance();
   const { connection } = useConnection();
 
@@ -28,19 +29,27 @@ const WalletDetails: FC<Props> = ({ publicKey, handleDisconnect }) => {
   };
 
   return (
-    <div className="px-8 py-4 sm:px-16">
+    <div className="px-8 pt-4 sm:px-16">
       <Text className="mx-8 mb-8 text-2xl">Wallet Connected</Text>
       <Text className="text-xl">
         Address: {shortenAddress(publicKey.toBase58())}
       </Text>
       <Text className="text-xl">Balance: {formatAmount(balance)} SOL</Text>
-      <Text className="text-xl">Network: Devnet</Text>
+      <Text className="mb-16 text-xl">Network: Devnet</Text>
       <Button label="Request 1 SOL" onClick={requestAirdrop} type="positive" />
       <Button
         label="Disconnect Wallet"
         onClick={handleDisconnect}
         type="negative"
       />
+      <div className="absolute left-0 flex justify-center w-full text-sm bottom-4">
+        <span
+          className="text-blue-400 cursor-pointer hover:underline"
+          onClick={goBack}
+        >
+          Ready to go?
+        </span>
+      </div>
     </div>
   );
 };

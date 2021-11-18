@@ -20,21 +20,33 @@ const WalletConnect: FC = () => {
   }, [adapter]);
 
   return (
-    <div className="mx-8 my-4">
+    <div className="mx-4 mt-4">
       <Text className="max-w-lg mb-4 text-xl">
         Select your wallet to continue
       </Text>
-      <div className="flex flex-col px-4 my-4 sm:mx-8">
+      <div className="flex flex-col px-4 mx-8 my-4">
         {wallets.map((wallet) => (
           <div
             key={wallet.name}
             onClick={() => select(wallet.name)}
-            className="flex justify-start w-full px-4 py-3 my-2 border cursor-pointer sm:px-16 bg-dark rounded-2xl bg-black-100 hover:border-pink-500"
+            className="flex justify-center w-full py-3 my-2 border cursor-pointer bg-dark rounded-2xl bg-black-100 hover:border-pink-500"
           >
             <Image src={wallet.icon} alt="wallet icon" width={28} height={28} />
             <Text className="pl-4 text-xl">{wallet.name}</Text>
           </div>
         ))}
+      </div>
+      <div className="flex items-center justify-center w-full h-8">
+        <Text className="text-md">Powered by</Text>
+        <span className="flex items-center pl-2">
+          <Image
+            src="/solana-icon.svg"
+            alt="solana logo"
+            width={24}
+            height={24}
+          />
+          <Text className="pl-2 text-md">SOLANA</Text>
+        </span>
       </div>
     </div>
   );
