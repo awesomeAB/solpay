@@ -37,13 +37,13 @@ const Demo: FC<Props> = ({ publicKey, handleDisconnect }) => {
       goBack={() => setShowWalletDetails(false)}
     />
   ) : (
-    <div className="px-4 pt-4">
-      <Text className="mx-8 mb-8 text-2xl">Checkout</Text>
-      <div className="flex justify-between px-8 py-4 mx-16 my-8 text-xl bg-gray-400 rounded-xl bg-opacity-5">
+    <div className="px-2 pt-4">
+      <Text className="mx-4 mb-8 text-2xl">Checkout</Text>
+      <div className="flex justify-between px-8 py-4 mx-8 my-8 text-xl bg-gray-400 rounded-xl bg-opacity-5">
         <Text>Total Amount:</Text>
         <Text>$1</Text>
       </div>
-      <div className="px-16 my-8">
+      <div className="px-8 mt-44">
         <div className="relative group">
           <div className="absolute opacity-75 inset-0.5 bg-gradient-to-r from-solanaGreen to-purple-600 rounded-xl filter blur-lg group-hover:opacity-100 transition duration-200" />
           <button
