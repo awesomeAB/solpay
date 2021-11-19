@@ -35,7 +35,7 @@ const WalletDetails: FC<Props> = ({ publicKey, handleDisconnect, goBack }) => {
         Address: {shortenAddress(publicKey.toBase58())}
       </Text>
       <Text className="text-xl">Balance: {formatAmount(balance)} SOL</Text>
-      <Text className="mb-16 text-xl">Network: Devnet</Text>
+      <Text className="text-xl mb-36">Network: Devnet</Text>
       <Button label="Request 1 SOL" onClick={requestAirdrop} type="positive" />
       <Button
         label="Disconnect Wallet"
@@ -44,7 +44,7 @@ const WalletDetails: FC<Props> = ({ publicKey, handleDisconnect, goBack }) => {
       />
       <div className="absolute left-0 flex justify-center w-full text-sm bottom-4">
         <span
-          className="text-blue-400 cursor-pointer hover:underline"
+          className="text-solanaGreen cursor-pointer hover:underline"
           onClick={goBack}
         >
           Ready to go?

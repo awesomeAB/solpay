@@ -2,8 +2,6 @@ import { Dialog, Transition } from "@headlessui/react";
 import { FC, Fragment, useRef } from "react";
 
 import Demo from "./Demo";
-import Image from "next/image";
-import { Text } from "components";
 import WalletConnect from "./WalletConnect";
 import { useWallet } from "@solana/wallet-adapter-react";
 

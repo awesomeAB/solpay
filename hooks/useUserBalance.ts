@@ -11,21 +11,24 @@ export default function useUserBalance() {
   const { publicKey } = useWallet();
 
   useEffect(() => {
-    const fetchBalance = async () => {
-      try {
-        if (publicKey) {
-          connection.getBalance(publicKey).then((lamports) => {
+    const fetchBalance = () => {
+      if (publicKey) {
+        connection
+          .getBalance(publicKey)
+          .then((lamports) => {
             setBalanceLamports(lamports);
-          });
-        } else {
-          setBalanceLamports(0);
-        }
-      } catch (e) {
-        console.error(e);
+          })
+          .catch((e) => console.error(e));
+      } else {
+        setBalanceLamports(0);
       }
     };
 
-    fetchBalance();
+    try {
+      fetchBalance();
+    } catch (e) {
+      console.error(e);
+    }
 
     const interval = setInterval(() => {
       fetchBalance();

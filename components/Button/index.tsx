@@ -11,7 +11,7 @@ interface Props {
 }
 
 const borderColor = {
-  positive: "border-green-500 hover:border-green-400",
+  positive: "border-solanaGreen hover:border-green-400",
   negative: "border-red-400 hover:border-red-500",
   neutral: "border",
 };
