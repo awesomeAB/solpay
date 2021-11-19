@@ -28,7 +28,7 @@ const Demo: FC<Props> = ({ publicKey, handleDisconnect }) => {
   const [showWalletDetails, setShowWalletDetails] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(false);
   const [txnHash, setTxnHash] = useState<string>("");
-  const { balance } = useUserBalance();
+  const { balance } = useUserBalance(publicKey);
   const { connection } = useConnection();
   const { signTransaction } = useWallet();
   const { marketRate } = useMarketRate();
@@ -70,6 +70,7 @@ const Demo: FC<Props> = ({ publicKey, handleDisconnect }) => {
       publicKey={publicKey}
       handleDisconnect={handleDisconnect}
       goBack={() => setShowWalletDetails(false)}
+      balance={balance}
     />
   ) : (
     <div className="px-2 pt-4">

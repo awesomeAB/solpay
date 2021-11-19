@@ -12,10 +12,15 @@ interface Props {
   handleDisconnect: () => Promise<void>;
   goBack: () => void;
   className?: string;
+  balance: number;
 }
 
-const WalletDetails: FC<Props> = ({ publicKey, handleDisconnect, goBack }) => {
-  const { balance } = useUserBalance();
+const WalletDetails: FC<Props> = ({
+  publicKey,
+  handleDisconnect,
+  goBack,
+  balance,
+}) => {
   const { connection } = useConnection();
 
   const requestAirdrop = async () => {

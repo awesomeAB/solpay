@@ -48,7 +48,7 @@ const WalletConnectModal: FC<Props> = ({ isOpen, setIsOpen }) => {
               <div className="flex flex-col">
                 <div className="flex justify-end">
                   <i
-                    className="text-4xl cursor-pointer ri-close-line"
+                    className="text-4xl cursor-pointer ri-close-line hover:text-solanaGreen"
                     onClick={() => setIsOpen(false)}
                     ref={closeButtonRef}
                   />

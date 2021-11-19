@@ -1,14 +1,14 @@
-import { useConnection, useWallet } from "@solana/wallet-adapter-react";
 import { useEffect, useState } from "react";
 
+import { PublicKey } from "@solana/web3.js";
 import { fromLamports } from "utils";
+import { useConnection } from "@solana/wallet-adapter-react";
 
 const REFRESH_MS = 2000;
 
-export default function useUserBalance() {
+export default function useUserBalance(publicKey: PublicKey) {
   const [balanceLamports, setBalanceLamports] = useState(0);
   const { connection } = useConnection();
-  const { publicKey } = useWallet();
 
   useEffect(() => {
     const fetchBalance = () => {
