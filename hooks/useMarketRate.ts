@@ -24,6 +24,8 @@ export default function useMarketRate() {
       }
     };
 
+    fetchMarketRate();
+
     const interval = setInterval(() => {
       fetchMarketRate();
     }, REFRESH_MS);

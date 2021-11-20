@@ -49,7 +49,7 @@ const WalletDetails: FC<Props> = ({
       />
       <div className="absolute left-0 flex justify-center w-full text-sm bottom-4">
         <span
-          className="text-solanaGreen cursor-pointer hover:underline"
+          className="cursor-pointer text-solanaGreen hover:underline"
           onClick={goBack}
         >
           Ready to go?

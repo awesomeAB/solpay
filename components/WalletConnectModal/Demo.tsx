@@ -26,12 +26,12 @@ interface Props {
 
 const Demo: FC<Props> = ({ publicKey, handleDisconnect }) => {
   const [showWalletDetails, setShowWalletDetails] = useState<boolean>(false);
+  const { marketRate } = useMarketRate();
   const [loading, setLoading] = useState<boolean>(false);
   const [txnHash, setTxnHash] = useState<string>("");
   const { balance } = useUserBalance(publicKey);
   const { connection } = useConnection();
   const { signTransaction } = useWallet();
-  const { marketRate } = useMarketRate();
 
   const pay = async () => {
     setTxnHash("");
