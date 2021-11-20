@@ -75,11 +75,11 @@ const Demo: FC<Props> = ({ publicKey, handleDisconnect }) => {
   ) : (
     <div className="px-2 pt-4">
       <Text className="mx-4 mb-8 text-2xl">Checkout</Text>
-      <div className="flex justify-between px-8 py-4 mx-8 my-4 text-xl bg-gray-400 rounded-xl bg-opacity-5">
+      <div className="flex justify-between px-8 py-4 mx-8 my-4 text-xl bg-gray-400 rounded-xl bg-opacity-10">
         <Text>Balance:</Text>
         <Text>${formatAmount(balance * marketRate, 2)}</Text>
       </div>
-      <div className="flex justify-between px-8 py-4 mx-8 mb-6 text-xl bg-gray-400 rounded-xl bg-opacity-5">
+      <div className="flex justify-between px-8 py-4 mx-8 mb-6 text-xl bg-gray-400 rounded-xl bg-opacity-10">
         <Text>Total Price:</Text>
         <Text>$1</Text>
       </div>
@@ -101,9 +101,9 @@ const Demo: FC<Props> = ({ publicKey, handleDisconnect }) => {
       <div className="absolute left-0 flex flex-col justify-center w-full bottom-4">
         <div className="mb-8 px-14">
           <div className="relative group">
-            <div className="absolute opacity-75 inset-0.5 bg-gradient-to-r from-solanaGreen to-purple-600 rounded-xl filter blur-lg group-hover:opacity-100 transition duration-200" />
+            <div className="absolute opacity-80 inset-0.5 bg-gradient-to-r from-solanaGreen to-purple-600 rounded-xl filter blur-lg group-hover:opacity-100 transition duration-200" />
             <button
-              className="relative inset-0 flex items-center justify-center w-full py-4 leading-none focus:outline-none bg-dark rounded-xl"
+              className="relative inset-0 flex items-center justify-center w-full py-4 leading-none focus:outline-none bg-snow dark:bg-dark rounded-xl"
               onClick={pay}
             >
               <Image
@@ -112,7 +112,7 @@ const Demo: FC<Props> = ({ publicKey, handleDisconnect }) => {
                 width={22}
                 height={22}
               />
-              <span className="pl-4 text-2xl text-primary">Pay</span>
+              <span className="pl-4 text-xl leading-6">Pay</span>
             </button>
           </div>
         </div>
