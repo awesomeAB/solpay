@@ -103,7 +103,7 @@ const Demo: FC<Props> = ({ publicKey, handleDisconnect }) => {
           <div className="relative group">
             <div className="absolute opacity-80 inset-0.5 bg-gradient-to-r from-solanaGreen to-purple-600 rounded-xl filter blur-lg group-hover:opacity-100 transition duration-200" />
             <button
-              className="relative inset-0 flex items-center justify-center w-full py-4 leading-none focus:outline-none bg-snow dark:bg-dark rounded-xl"
+              className="relative inset-0 flex items-center justify-center w-full py-5 leading-none focus:outline-none bg-snow dark:bg-dark rounded-xl"
               onClick={pay}
             >
               <Image
