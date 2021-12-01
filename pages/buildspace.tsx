@@ -31,7 +31,7 @@ const Buildspace: FC = () => {
       <nav className="z-10 flex items-center justify-between w-full h-16 px-6 shadow-sm">
         <div className="flex items-center">
           <span className="pr-3 text-3xl">🦄</span>
-          <span className="text-xl text-dark">buildspace</span>
+          <span className="text-xl font-bold text-dark">buildspace</span>
         </div>
         <i className="text-2xl cursor-pointer text-dark ri-shopping-bag-3-line transition-transform ease-in-out duration-300 transform hover:scale-110"></i>
       </nav>
@@ -54,7 +54,9 @@ const Buildspace: FC = () => {
           </span>
         </div>
         <div className="flex flex-col items-center w-full px-8 py-16 text-dark lg:w-1/3 bg-snow">
-          <span className="text-xl text-dark">Buildspace OG sticker</span>
+          <span className="text-xl font-bold text-dark">
+            Buildspace OG sticker
+          </span>
           <ul className="my-8 text-lg">
             <li>
               🧑‍💻 Decorate and personalize laptops, windows, and more...
@@ -66,7 +68,7 @@ const Buildspace: FC = () => {
             <li>🖼 1/8 inch (3.2mm) white border around each design</li>
             <li>✨ Premium matte finish</li>
           </ul>
-          <div className="flex items-center justify-center w-64 py-4 mt-auto cursor-pointer text-snow rounded-3xl bg-gradient-to-br from-buildspaceFrom to-buildspaceTo transition-transform ease-in-out duration-300 transform hover:scale-105">
+          <div className="flex items-center justify-center w-64 py-4 mt-auto font-bold cursor-pointer text-snow rounded-3xl bg-gradient-to-br from-buildspaceFrom to-buildspaceTo transition-transform ease-in-out duration-300 transform hover:scale-105">
             ADD TO CART
           </div>
         </div>
