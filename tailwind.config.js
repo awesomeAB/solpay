@@ -10,6 +10,8 @@ module.exports = {
         dark: "#08070B",
         snow: "#f2f2f2",
         solanaGreen: "#07C596",
+        buildspaceFrom: "#CB5EEE",
+        buildspaceTo: "#4BE1EC",
       },
       animation: {
         tilt: "tilt 10s infinite linear",
