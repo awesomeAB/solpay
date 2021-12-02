@@ -1,23 +1,69 @@
 import { HeroButton, Text, WalletConnectModal } from "components";
+import { useEffect, useState } from "react";
 
 import Head from "next/head";
 import type { NextPage } from "next";
-import { useState } from "react";
+import c from "classnames";
+
+function validateEmailRegex(email: string) {
+  const re =
+    /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+  return re.test(String(email).toLowerCase());
+}
 
 const Home: NextPage = () => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [email, setEmail] = useState<string>("");
   const [submitting, setSubmitting] = useState<boolean>(false);
-  const [success, setSuccess] = useState<boolean>(false);
+  const [isSubmitted, setIsSubmitted] = useState<boolean>(false);
+  const [isValid, setIsValid] = useState(false);
+  const [message, setMessage] = useState("");
 
-  const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+  useEffect(() => {
+    if (email === "") {
+      setIsValid(false);
+      setMessage("");
+    } else if (validateEmailRegex(email)) {
+      setIsValid(true);
+      setMessage("Your email looks good.");
+    } else {
+      setIsValid(false);
+      setMessage("Please enter a valid email.");
+    }
+  }, [email]);
+
+  const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log(email);
-    setSubmitting(true);
-    setTimeout(() => {
-      setSubmitting(false);
-      setSuccess(true);
-    }, 1000);
+    if (isSubmitted) {
+      setMessage("Thanks! Email submitted Successfully!");
+    } else if (isValid && !submitting && !isSubmitted) {
+      setSubmitting(true);
+      setMessage("Submitting...");
+      const params = new URLSearchParams(window.location.search);
+
+      fetch("/api/waitlist", {
+        body: JSON.stringify({
+          email,
+          date: new Date().toUTCString(),
+          ref: params.get("ref") ?? "",
+        }),
+        headers: {
+          "Content-Type": "application/json",
+        },
+        method: "POST",
+      }).then(() => {
+        setIsSubmitted(true);
+        setSubmitting(false);
+        setMessage("Thanks! Email submitted successfully.");
+        setTimeout(() => {
+          setEmail("");
+          setIsSubmitted(false);
+          setMessage("");
+        }, 5000);
+      });
+    } else if (isValid === false) {
+      setMessage("Please enter a valid email.");
+    }
   };
 
   return (
@@ -53,20 +99,27 @@ const Home: NextPage = () => {
               />
               <button
                 className="flex items-center h-full px-4 text-2xl text-snow"
-                disabled={success}
+                disabled={isSubmitted}
                 type="submit"
               >
                 {submitting ? (
                   <div className="flex items-center justify-center px-0.5">
                     <div className=" w-5 h-5 border-t-2 border-b-2 rounded-full border-snow animate-spin"></div>
                   </div>
-                ) : success ? (
+                ) : isSubmitted ? (
                   <i className="ri-check-double-line"></i>
                 ) : (
                   <i className="ri-arrow-right-line"></i>
                 )}
               </button>
             </div>
+            <span
+              className={c("text-sm absolute left-2 text-red-500", {
+                "text-solanaGreen": isValid || isSubmitted,
+              })}
+            >
+              {message}
+            </span>
           </form>
         </div>
         <WalletConnectModal isOpen={isOpen} setIsOpen={setIsOpen} />
