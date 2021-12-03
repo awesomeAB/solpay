@@ -132,7 +132,7 @@ const Home: NextPage = () => {
         </div>
         <WalletConnectModal isOpen={isOpen} setIsOpen={setIsOpen} />
       </main>
-      <footer className="absolute flex justify-center w-full bottom-4">
+      <footer className="absolute flex justify-center w-full bottom-1">
         <Text className="text-md">Powered by</Text>
         <a
           className="flex items-center pl-2 cursor-pointer"
