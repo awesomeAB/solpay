@@ -20,7 +20,7 @@ const WalletConnectionProvider = dynamic<{ children: ReactNode }>(
 const App: FC<AppProps> = ({ Component, pageProps }: AppProps) => {
   return (
     <WalletConnectionProvider>
-      <ThemeProvider attribute="class">
+      <ThemeProvider attribute="class" defaultTheme="dark">
         <Component {...pageProps} />
       </ThemeProvider>
       <Toaster position="bottom-center" />

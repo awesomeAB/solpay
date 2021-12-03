@@ -5,12 +5,27 @@ import Head from "next/head";
 import Image from "next/image";
 import type { NextPage } from "next";
 import c from "classnames";
+import { useTheme } from "next-themes";
 
 function validateEmailRegex(email: string) {
   const re =
     /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
   return re.test(String(email).toLowerCase());
 }
+
+const ThemeToggle = () => {
+  const { theme, setTheme } = useTheme();
+
+  return theme === "dark" ? (
+    <button onClick={() => setTheme("light")}>
+      <i className="text-3xl text-dark dark:text-snow ri-sun-line" />
+    </button>
+  ) : (
+    <button onClick={() => setTheme("dark")}>
+      <i className="text-3xl text-dark dark:text-snow ri-moon-clear-line" />
+    </button>
+  );
+};
 
 const Home: NextPage = () => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
@@ -76,12 +91,12 @@ const Home: NextPage = () => {
           content="Start accepting Solana payments today!"
         />
       </Head>
-      <header className="absolute flex items-center top-6 left-8 ">
+      <header className="absolute top-0 flex items-center justify-between w-full px-8 py-4">
         <i className="text-5xl text-transparent ri-wallet-3-fill bg-clip-text bg-gradient-to-br from-solanaGreen to-purple-600" />
-        {/* <span className="px-2 text-2xl">SolPay</span> */}
+        <ThemeToggle />
       </header>
       <main className="container flex flex-col items-center justify-center">
-        <section className="px-4 mb-16 text-center">
+        <section className="px-4 mt-4 mb-16 text-center">
           <Text className="my-4 text-5xl">
             Start accepting{" "}
             <span className="font-extrabold text-transparent bg-clip-text bg-gradient-to-br from-solanaGreen to-purple-600">
