@@ -16,13 +16,15 @@ function validateEmailRegex(email: string) {
 const ThemeToggle = () => {
   const { theme, setTheme } = useTheme();
 
-  return theme === "dark" ? (
-    <button onClick={() => setTheme("light")}>
-      <i className="text-3xl text-dark dark:text-snow ri-sun-line" />
-    </button>
-  ) : (
-    <button onClick={() => setTheme("dark")}>
-      <i className="text-3xl text-dark dark:text-snow ri-moon-clear-line" />
+  return (
+    <button onClick={() => setTheme(theme === "light" ? "dark" : "light")}>
+      <i
+        className={c(
+          "text-3xl text-dark dark:text-snow",
+          { "ri-sun-line": theme !== "light" },
+          { "ri-moon-clear-line": theme === "light" },
+        )}
+      />
     </button>
   );
 };
