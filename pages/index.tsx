@@ -29,7 +29,7 @@ const Home: NextPage = () => {
       setMessage("Your email looks good.");
     } else {
       setIsValid(false);
-      setMessage("Please enter a valid email.");
+      setMessage("Please enter a valid email address.");
     }
   }, [email]);
 
@@ -42,7 +42,7 @@ const Home: NextPage = () => {
       setMessage("Submitting...");
       const params = new URLSearchParams(window.location.search);
 
-      fetch("/api/waitlist", {
+      fetch("/api/subscribe", {
         body: JSON.stringify({
           email,
           date: new Date().toUTCString(),
@@ -63,19 +63,23 @@ const Home: NextPage = () => {
         }, 5000);
       });
     } else if (isValid === false) {
-      setMessage("Please enter a valid email.");
+      setMessage("Please enter a valid email address.");
     }
   };
 
   return (
     <div className="flex justify-center h-screen dark:bg-dark">
       <Head>
-        <title>Solpay</title>
+        <title>Solpay - Start accepting SOLANA payments today!</title>
         <meta
           name="description"
           content="Start accepting Solana payments today!"
         />
       </Head>
+      <header className="absolute flex items-center top-6 left-8 ">
+        <i className="text-5xl text-transparent ri-wallet-3-fill bg-clip-text bg-gradient-to-br from-solanaGreen to-purple-600" />
+        {/* <span className="px-2 text-2xl">SolPay</span> */}
+      </header>
       <main className="container flex flex-col items-center justify-center">
         <section className="px-4 mb-16 text-center">
           <Text className="my-4 text-5xl">
@@ -95,7 +99,7 @@ const Home: NextPage = () => {
             <div className="flex items-center h-16 w-72 p-0.5 bg-gradient-to-tr from-solanaGreen to-purple-600 rounded-2xl">
               <input
                 type="email"
-                placeholder="Enter Waitlist"
+                placeholder="Get Early Access"
                 autoComplete="off"
                 onChange={(e) => setEmail(e.target.value)}
                 value={email}
@@ -130,15 +134,20 @@ const Home: NextPage = () => {
       </main>
       <footer className="absolute flex justify-center w-full bottom-4">
         <Text className="text-md">Powered by</Text>
-        <span className="flex items-center pl-2">
+        <a
+          className="flex items-center pl-2 cursor-pointer"
+          href="https://solana.com"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
           <Image
             src="/solana-icon.svg"
             alt="solana logo"
             width={24}
             height={24}
           />
-          <Text className="pl-2 text-md">SOLANA</Text>
-        </span>
+          <Text className="pl-2 cursor-pointer text-md">SOLANA</Text>
+        </a>
       </footer>
     </div>
   );

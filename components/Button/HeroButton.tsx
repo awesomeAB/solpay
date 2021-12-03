@@ -13,7 +13,7 @@ const Button: FC<Props> = ({ label, onClick }) => {
         className="relative flex items-center px-12 py-3 leading-none focus:outline-none bg-snow dark:bg-dark rounded-2xl"
         onClick={onClick}
       >
-        <i className="pr-6 text-3xl text-solanaGreen ri-wallet-3-line" />
+        <i className="pr-6 text-3xl text-transparent ri-wallet-3-fill bg-clip-text bg-gradient-to-br from-solanaGreen to-purple-600" />
         <span className="pr-6 font-bold leading-6">{label}</span>
       </button>
     </div>
