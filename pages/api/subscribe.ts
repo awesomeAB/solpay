@@ -32,7 +32,7 @@ export default async function emailList(
     },
   });
 
-  return res.status(201).json({
+  return res.status(response.status).json({
     data: response.data,
   });
 }
