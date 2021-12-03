@@ -2,6 +2,7 @@ import { HeroButton, Text, WalletConnectModal } from "components";
 import { useEffect, useState } from "react";
 
 import Head from "next/head";
+import Image from "next/image";
 import type { NextPage } from "next";
 import c from "classnames";
 
@@ -75,14 +76,17 @@ const Home: NextPage = () => {
           content="Start accepting Solana payments today!"
         />
       </Head>
-
       <main className="container flex flex-col items-center justify-center">
         <section className="px-4 mb-16 text-center">
           <Text className="my-4 text-5xl">
-            Start accepting SOLANA payments today!
+            Start accepting{" "}
+            <span className="font-extrabold text-transparent bg-clip-text bg-gradient-to-br from-solanaGreen to-purple-600">
+              SOLANA
+            </span>{" "}
+            payments today!
           </Text>
           <Text className="text-2xl ">
-            It'll only take two minutes to set up.
+            It'll only take a few minutes to set up.
           </Text>
         </section>
         <div className="flex flex-wrap items-center justify-center">
@@ -124,6 +128,18 @@ const Home: NextPage = () => {
         </div>
         <WalletConnectModal isOpen={isOpen} setIsOpen={setIsOpen} />
       </main>
+      <footer className="absolute flex justify-center w-full bottom-4">
+        <Text className="text-md">Powered by</Text>
+        <span className="flex items-center pl-2">
+          <Image
+            src="/solana-icon.svg"
+            alt="solana logo"
+            width={24}
+            height={24}
+          />
+          <Text className="pl-2 text-md">SOLANA</Text>
+        </span>
+      </footer>
     </div>
   );
 };

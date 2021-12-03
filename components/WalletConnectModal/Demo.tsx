@@ -74,7 +74,7 @@ const Demo: FC<Props> = ({ publicKey, handleDisconnect }) => {
     />
   ) : (
     <div className="px-2 pt-4">
-      <Text className="mx-4 mb-8 text-2xl">Checkout</Text>
+      <Text className="mx-4 mb-8 text-2xl">Checkout (Devnet)</Text>
       <div className="flex justify-between px-8 py-4 mx-8 my-4 text-xl bg-gray-400 rounded-xl bg-opacity-10">
         <Text>Balance:</Text>
         <Text>${formatAmount(balance * marketRate, 2)}</Text>
