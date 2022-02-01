@@ -126,7 +126,7 @@ const Home: NextPage = () => {
             </span>
           </form>
         </div>
-        <WalletConnectModal isOpen={isOpen} setIsOpen={setIsOpen} />
+        <WalletConnectModal isOpen={isOpen} setIsOpen={setIsOpen} showDemo />
       </main>
       <footer className="absolute flex justify-center w-full bottom-1">
         <Text className="text-md">Powered by</Text>
