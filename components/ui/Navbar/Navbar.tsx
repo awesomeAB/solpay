@@ -38,18 +38,18 @@ const Navbar = () => {
                 <Logo />
               </a>
             </Link>
-            <nav className="hidden ml-6 space-x-2 lg:block">
+            {/* <nav className="hidden ml-6 space-x-2 lg:block">
               <Link href="/">
                 <a className={c(s.link, "text-dark dark:text-snow")}>Pricing</a>
               </Link>
               <Link href="/account">
                 <a className={c(s.link, "text-dark dark:text-snow")}>Account</a>
               </Link>
-            </nav>
+            </nav> */}
           </div>
 
           <div className="flex justify-end flex-1 space-x-8">
-            {user ? (
+            {/* {user ? (
               <Link href="#">
                 <a
                   className={c(s.link, "text-dark dark:text-snow")}
@@ -62,7 +62,7 @@ const Navbar = () => {
               <Link href="/signin">
                 <a className={s.link}>Sign in</a>
               </Link>
-            )}
+            )} */}
             <ThemeToggle />
           </div>
         </div>
