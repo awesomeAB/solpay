@@ -8,9 +8,14 @@ import { useWallet } from "@solana/wallet-adapter-react";
 interface Props {
   isOpen: boolean;
   setIsOpen: (value: boolean) => void;
+  showDemo?: boolean;
 }
 
-const WalletConnectModal: FC<Props> = ({ isOpen, setIsOpen }) => {
+const WalletConnectModal: FC<Props> = ({
+  isOpen,
+  setIsOpen,
+  showDemo = false,
+}) => {
   const { publicKey, disconnect } = useWallet();
   const closeButtonRef = useRef(null);
 
@@ -53,7 +58,7 @@ const WalletConnectModal: FC<Props> = ({ isOpen, setIsOpen }) => {
                     ref={closeButtonRef}
                   />
                 </div>
-                {publicKey ? (
+                {publicKey && showDemo ? (
                   <Demo publicKey={publicKey} handleDisconnect={disconnect} />
                 ) : (
                   <WalletConnect />
