@@ -4,6 +4,7 @@ import Image from "next/image";
 import { Text } from "components";
 import toast from "react-hot-toast";
 import { useWallet } from "@solana/wallet-adapter-react";
+import SolanaPayLogo from "components/Images/SolanaPayLogo";
 
 const WalletConnect: FC = () => {
   const { wallets, select, connect, adapter } = useWallet();
@@ -37,16 +38,8 @@ const WalletConnect: FC = () => {
         ))}
       </div>
       <div className="flex items-center justify-center w-full h-8">
-        <Text className="text-md">Powered by</Text>
-        <span className="flex items-center pl-2">
-          <Image
-            src="/solana-icon.svg"
-            alt="solana logo"
-            width={24}
-            height={24}
-          />
-          <Text className="pl-2 text-md">SOLANA</Text>
-        </span>
+        <Text className="mr-2 text-md">Powered by</Text>
+        <SolanaPayLogo />
       </div>
     </div>
   );

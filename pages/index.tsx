@@ -2,9 +2,9 @@ import { HeroButton, Text, WalletConnectModal } from "components";
 import { useEffect, useState } from "react";
 
 import Head from "next/head";
-import Image from "next/image";
 import type { NextPage } from "next";
 import c from "classnames";
+import SolanaPayLogo from "components/Images/SolanaPayLogo";
 
 function validateEmailRegex(email: string) {
   const re =
@@ -129,21 +129,9 @@ const Home: NextPage = () => {
         <WalletConnectModal isOpen={isOpen} setIsOpen={setIsOpen} showDemo />
       </main>
       <footer className="absolute flex justify-center w-full bottom-1">
-        <Text className="text-md">Powered by</Text>
-        <a
-          className="flex items-center pl-2 cursor-pointer"
-          href="https://solana.com"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            src="/solana-icon.svg"
-            alt="solana logo"
-            width={24}
-            height={24}
-          />
-          <Text className="pl-2 cursor-pointer text-md">SOLANA</Text>
-        </a>
+        <Text className="mr-2 text-md">Powered by</Text>
+
+        <SolanaPayLogo />
       </footer>
     </div>
   );
