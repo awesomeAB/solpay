@@ -5,6 +5,8 @@ import Head from "next/head";
 import type { NextPage } from "next";
 import c from "classnames";
 import SolanaPayLogo from "components/Images/SolanaPayLogo";
+import { useUser } from "utils/useUser";
+import { useRouter } from "next/router";
 
 function validateEmailRegex(email: string) {
   const re =
@@ -19,6 +21,8 @@ const Home: NextPage = () => {
   const [isSubmitted, setIsSubmitted] = useState<boolean>(false);
   const [isValid, setIsValid] = useState(false);
   const [message, setMessage] = useState("");
+  const { user, signIn } = useUser();
+  const router = useRouter();
 
   useEffect(() => {
     if (email === "") {
@@ -32,6 +36,12 @@ const Home: NextPage = () => {
       setMessage("Please enter a valid email address.");
     }
   }, [email]);
+
+  useEffect(() => {
+    if (user) {
+      router.replace("/account");
+    }
+  }, [user]);
 
   const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();

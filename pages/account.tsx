@@ -39,34 +39,10 @@ export default function Account() {
   const router = useRouter();
   const { userLoaded, user, session, userDetails, subscription } = useUser();
   // const { publicKey, disconnect } = useWallet();
-  const publicKey = "a";
+  const publicKey = "";
   useEffect(() => {
     if (!user) router.replace("/signin");
   }, [user]);
-
-  const redirectToCustomerPortal = async () => {
-    setLoading(true);
-    try {
-      const { url, error } = await postData({
-        url: "/api/create-portal-link",
-        token: session.access_token,
-      });
-      window.location.assign(url);
-    } catch (error) {
-      if (error) return alert((error as Error).message);
-    }
-    setLoading(false);
-  };
-
-  const subscriptionName =
-    subscription && subscription?.prices?.products?.[0]?.name;
-  const subscriptionPrice =
-    subscription &&
-    new Intl.NumberFormat("en-US", {
-      style: "currency",
-      currency: subscription?.prices?.currency,
-      minimumFractionDigits: 0,
-    }).format((subscription?.prices?.unit_amount || 0) / 100);
 
   return (
     <section className="mb-32 bg-snow dark:bg-dark">
@@ -79,8 +55,8 @@ export default function Account() {
       </div>
       <div className="p-4">
         <Card
-          title="Your Solana Account"
-          // description={`Please connect using your Solana wallet to continue.`}
+          title="Merchant Account"
+          description={"Your payments will be sent to this Solana wallet"}
           footer={
             <div className="flex flex-col items-start justify-between sm:flex-row sm:items-center">
               <p className="pb-4 sm:pb-0">
@@ -98,7 +74,11 @@ export default function Account() {
           }
         >
           <div className="mt-8 mb-4 text-xl font-semibold">
-            {publicKey && <Text>{publicKey}</Text>}
+            {publicKey ? (
+              <Text>{publicKey}</Text>
+            ) : (
+              <Text color="text-red-300">Wallet not connected.</Text>
+            )}
           </div>
         </Card>
         <Card
