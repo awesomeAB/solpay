@@ -7,7 +7,6 @@ import { useUser } from "utils/useUser";
 import { postData } from "utils/helpers";
 import { WalletConnectModal, Text } from "components";
 import { useWallet } from "@solana/wallet-adapter-react";
-
 interface Props {
   title: string;
   description?: string;
@@ -22,10 +21,10 @@ function Card({ title, description, footer, children }: Props) {
         <h3 className="mb-1 text-2xl font-medium text-dark dark:text-white">
           {title}
         </h3>
-        <p className="text-zinc-300">{description}</p>
+        <Text>{description}</Text>
         {children}
       </div>
-      <div className="p-4 border-t border-zinc-700 bg-zinc-900 text-zinc-500 rounded-b-md">
+      <div className="p-4 border-t border-zinc-700 bg-zinc-200 dark:bg-zinc-900 text-zinc-500 rounded-b-md">
         {footer}
       </div>
     </div>
@@ -37,15 +36,15 @@ export default function Account() {
 
   const [loading, setLoading] = useState(false);
   const router = useRouter();
-  const { userLoaded, user, session, userDetails, subscription } = useUser();
-  // const { publicKey, disconnect } = useWallet();
-  const publicKey = "";
+  const { userLoaded, user, session, userDetails, signOut } = useUser();
+  const wallet = useWallet();
+
   useEffect(() => {
     if (!user) router.replace("/signin");
   }, [user]);
 
   return (
-    <section className="mb-32 bg-snow dark:bg-dark">
+    <section className="h-screen bg-white dark:bg-dark">
       <div className="max-w-6xl px-4 pt-8 pb-8 mx-auto sm:pt-24 sm:px-6 lg:px-8">
         <div className="sm:flex sm:flex-col sm:align-center">
           <h1 className="text-4xl font-extrabold text-gray-600 dark:text-snow sm:text-center sm:text-6xl">
@@ -55,17 +54,18 @@ export default function Account() {
       </div>
       <div className="p-4">
         <Card
-          title="Merchant Account"
-          description={"Your payments will be sent to this Solana wallet"}
+          title="Merchant Wallet"
+          description={"Your payments will be sent to this SOLANA wallet"}
           footer={
             <div className="flex flex-col items-start justify-between sm:flex-row sm:items-center">
               <p className="pb-4 sm:pb-0">
-                Please connect using your Solana wallet to continue.
+                {wallet.publicKey
+                  ? "Please contact support if you want to update the Merchant Wallet*"
+                  : "Please connect using your Solana wallet to continue."}
               </p>
               <Button
                 variant="slim"
-                loading={loading}
-                disabled={loading}
+                disabled={!!wallet.publicKey}
                 onClick={() => setIsOpen(true)}
               >
                 Connect Wallet
@@ -74,39 +74,40 @@ export default function Account() {
           }
         >
           <div className="mt-8 mb-4 text-xl font-semibold">
-            {publicKey ? (
-              <Text>{publicKey}</Text>
+            {wallet.publicKey ? (
+              <Text color="text-green-400">{wallet.publicKey.toBase58()}</Text>
             ) : (
               <Text color="text-red-300">Wallet not connected.</Text>
             )}
           </div>
         </Card>
+
         <Card
-          title="Your Name"
-          description="Please enter your full name, or a display name you are comfortable with."
-          footer={<p>Please use 64 characters at maximum.</p>}
+          title="Account"
+          description="You can set up a password or use a magic link to login."
+          footer={
+            <div className="flex flex-col items-start justify-between sm:flex-row sm:items-center">
+              <p className="pb-4 sm:pb-0">
+                You are currently on the FREE tier.
+              </p>
+              <Button variant="slim" onClick={() => signOut()}>
+                Sign Out
+              </Button>
+            </div>
+          }
         >
-          <div className="mt-8 mb-4 text-xl font-semibold">
-            {userDetails ? (
-              `${userDetails?.full_name ?? ""}`
-            ) : (
-              <div className="h-8 mb-6">
-                <LoadingDots />
-              </div>
-            )}
-          </div>
-        </Card>
-        <Card
-          title="Your Email"
-          description="Please enter the email address you want to use to login."
-          footer={<p>We will email you to verify the change.</p>}
-        >
-          <p className="mt-8 mb-4 text-xl text-dark dark:text-white font-semibold">
+          <p className="mt-8 mb-4 text-xl font-semibold text-dark dark:text-white">
             {user ? user.email : undefined}
           </p>
         </Card>
       </div>
-      <WalletConnectModal isOpen={isOpen} setIsOpen={setIsOpen} showDemo />
+
+      <WalletConnectModal
+        isOpen={isOpen}
+        setIsOpen={setIsOpen}
+        callback={() => setIsOpen(false)}
+        wallet={wallet}
+      />
     </section>
   );
 }

@@ -3,21 +3,26 @@ import { FC, Fragment, useRef } from "react";
 
 import Demo from "./Demo";
 import WalletConnect from "./WalletConnect";
-import { useWallet } from "@solana/wallet-adapter-react";
+import { WalletContextState } from "@solana/wallet-adapter-react";
+import { PublicKey } from "@solana/web3.js";
 
 interface Props {
   isOpen: boolean;
   setIsOpen: (value: boolean) => void;
   showDemo?: boolean;
+  callback?: () => void;
+  wallet: WalletContextState;
 }
 
 const WalletConnectModal: FC<Props> = ({
   isOpen,
   setIsOpen,
   showDemo = false,
+  callback,
+  wallet,
 }) => {
-  const { publicKey, disconnect } = useWallet();
   const closeButtonRef = useRef(null);
+  const { publicKey, disconnect } = wallet;
 
   return (
     <Transition.Root show={isOpen} as={Fragment}>
@@ -25,7 +30,7 @@ const WalletConnectModal: FC<Props> = ({
         as="div"
         className="fixed inset-0 z-10 overflow-y-auto"
         initialFocus={closeButtonRef}
-        onClose={setIsOpen}
+        onClose={() => setIsOpen(false)}
       >
         <div className="flex items-center justify-center min-h-screen text-center sm:p-0">
           <Transition.Child
@@ -61,7 +66,7 @@ const WalletConnectModal: FC<Props> = ({
                 {publicKey && showDemo ? (
                   <Demo publicKey={publicKey} handleDisconnect={disconnect} />
                 ) : (
-                  <WalletConnect />
+                  <WalletConnect callback={callback} wallet={wallet} />
                 )}
               </div>
             </div>

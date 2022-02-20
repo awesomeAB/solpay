@@ -4,11 +4,11 @@ import {
 } from "@solana/wallet-adapter-react";
 import { FC, ReactNode, useMemo } from "react";
 import {
-  getLedgerWallet,
-  getPhantomWallet,
-  getSlopeWallet,
-  getSolflareWallet,
-  getSolongWallet,
+  LedgerWalletAdapter,
+  PhantomWalletAdapter,
+  SlopeWalletAdapter,
+  SolflareWalletAdapter,
+  SolongWalletAdapter,
 } from "@solana/wallet-adapter-wallets";
 
 import { WalletAdapterNetwork } from "@solana/wallet-adapter-base";
@@ -25,11 +25,11 @@ export const WalletConnectionProvider: FC<{ children: ReactNode }> = ({
 
   const wallets = useMemo(
     () => [
-      getPhantomWallet(),
-      getSolflareWallet(),
-      getSlopeWallet(),
-      getSolongWallet(),
-      getLedgerWallet(),
+      new LedgerWalletAdapter(),
+      new PhantomWalletAdapter(),
+      new SlopeWalletAdapter(),
+      new SolflareWalletAdapter(),
+      new SolongWalletAdapter(),
     ],
     [],
   );

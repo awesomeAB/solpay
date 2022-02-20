@@ -7,6 +7,7 @@ import c from "classnames";
 import SolanaPayLogo from "components/Images/SolanaPayLogo";
 import { useUser } from "utils/useUser";
 import { useRouter } from "next/router";
+import { useWallet } from "@solana/wallet-adapter-react";
 
 function validateEmailRegex(email: string) {
   const re =
@@ -23,6 +24,7 @@ const Home: NextPage = () => {
   const [message, setMessage] = useState("");
   const { user, signIn } = useUser();
   const router = useRouter();
+  const wallet = useWallet();
 
   useEffect(() => {
     if (email === "") {
@@ -136,7 +138,12 @@ const Home: NextPage = () => {
             </span>
           </form>
         </div>
-        <WalletConnectModal isOpen={isOpen} setIsOpen={setIsOpen} showDemo />
+        <WalletConnectModal
+          isOpen={isOpen}
+          setIsOpen={setIsOpen}
+          wallet={wallet}
+          showDemo
+        />
       </main>
       <footer className="absolute flex justify-center w-full bottom-1">
         <Text className="mr-2 text-md">Powered by</Text>
