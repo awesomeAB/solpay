@@ -80,7 +80,7 @@ const Home: NextPage = () => {
   };
 
   return (
-    <div className="flex justify-center h-screen dark:bg-dark">
+    <div className="flex h-screen justify-center dark:bg-dark">
       <Head>
         <title>Solpay - Start accepting SOLANA payments today!</title>
         <meta
@@ -89,10 +89,10 @@ const Home: NextPage = () => {
         />
       </Head>
       <main className="container flex flex-col items-center justify-center">
-        <section className="px-4 mt-4 mb-16 text-center">
+        <section className="mt-4 mb-16 px-4 text-center">
           <Text className="my-4 text-5xl">
             Start accepting{" "}
-            <span className="font-extrabold text-transparent bg-clip-text bg-gradient-to-br from-solanaGreen to-purple-600">
+            <span className="bg-gradient-to-br from-solanaGreen to-purple-600 bg-clip-text font-extrabold text-transparent">
               SOLANA
             </span>{" "}
             payments today!
@@ -103,24 +103,24 @@ const Home: NextPage = () => {
         </section>
         <div className="flex flex-wrap items-center justify-center">
           <HeroButton label="Live Demo" onClick={() => setIsOpen(true)} />
-          <form className="relative mx-8 my-12 group" onSubmit={onSubmit}>
-            <div className="flex items-center h-16 w-72 p-0.5 bg-gradient-to-tr from-solanaGreen to-purple-600 rounded-2xl">
+          <form className="group relative mx-8 my-12" onSubmit={onSubmit}>
+            <div className="flex h-16 w-72 items-center rounded-2xl bg-gradient-to-tr from-solanaGreen to-purple-600 p-0.5">
               <input
                 type="email"
                 placeholder="Get Early Access"
                 autoComplete="off"
                 onChange={(e) => setEmail(e.target.value)}
                 value={email}
-                className="w-full h-full p-4 leading-none text-dark dark:text-snow focus:outline-none dark:bg-dark rounded-2xl"
+                className="h-full w-full rounded-2xl p-4 leading-none text-dark focus:outline-none dark:bg-dark dark:text-snow"
               />
               <button
-                className="flex items-center h-full px-4 text-2xl text-snow"
+                className="flex h-full items-center px-4 text-2xl text-snow"
                 disabled={isSubmitted}
                 type="submit"
               >
                 {submitting ? (
                   <div className="flex items-center justify-center px-0.5">
-                    <div className=" w-5 h-5 border-t-2 border-b-2 rounded-full border-snow animate-spin"></div>
+                    <div className=" h-5 w-5 animate-spin rounded-full border-t-2 border-b-2 border-snow"></div>
                   </div>
                 ) : isSubmitted ? (
                   <i className="ri-check-double-line"></i>
@@ -130,7 +130,7 @@ const Home: NextPage = () => {
               </button>
             </div>
             <span
-              className={c("text-sm absolute left-2 text-red-500", {
+              className={c("absolute left-2 text-sm text-red-500", {
                 "text-solanaGreen": isValid || isSubmitted,
               })}
             >
@@ -145,8 +145,8 @@ const Home: NextPage = () => {
           showDemo
         />
       </main>
-      <footer className="absolute flex justify-center w-full bottom-1">
-        <Text className="mr-2 text-md">Powered by</Text>
+      <footer className="absolute bottom-1 flex w-full justify-center">
+        <Text className="text-md mr-2">Powered by</Text>
 
         <SolanaPayLogo />
       </footer>

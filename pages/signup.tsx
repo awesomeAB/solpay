@@ -9,6 +9,7 @@ import { updateUserName } from "utils/supabase-client";
 import { useUser } from "utils/useUser";
 import { User } from "@supabase/gotrue-js";
 import { Text } from "components";
+import Head from "next/head";
 
 const SignUp = () => {
   const [newUser, setNewUser] = useState<User | null>(null);
@@ -52,8 +53,11 @@ const SignUp = () => {
   }, [newUser, user]);
 
   return (
-    <div className="flex justify-center h-screen">
-      <div className="flex flex-col justify-between max-w-lg p-3 m-auto w-80 ">
+    <div className="flex h-screen justify-center">
+      <Head>
+        <title>Solpay | Sign Up</title>
+      </Head>
+      <div className="m-auto flex w-80 max-w-lg flex-col justify-between p-3">
         <div className="flex items-center justify-center pb-12">
           <Logo width="64px" height="64px" />
           <Text className="pl-2 text-xl font-bold">Sign Up</Text>
@@ -84,7 +88,7 @@ const SignUp = () => {
             placeholder="Password"
             onChange={setPassword}
           />
-          <div className="pt-2 w-full flex flex-col">
+          <div className="flex w-full flex-col pt-2">
             <Button
               variant="slim"
               type="submit"
@@ -99,7 +103,7 @@ const SignUp = () => {
             <span className="text-zinc-200">Do you have an account?</span>
             {` `}
             <Link href="/signin">
-              <a className="text-accent-9 font-bold hover:underline cursor-pointer">
+              <a className="text-accent-9 cursor-pointer font-bold hover:underline">
                 Sign in.
               </a>
             </Link>

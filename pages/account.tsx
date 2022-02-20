@@ -7,6 +7,8 @@ import { useUser } from "utils/useUser";
 import { postData } from "utils/helpers";
 import { WalletConnectModal, Text } from "components";
 import { useWallet } from "@solana/wallet-adapter-react";
+import Head from "next/head";
+
 interface Props {
   title: string;
   description?: string;
@@ -16,7 +18,7 @@ interface Props {
 
 function Card({ title, description, footer, children }: Props) {
   return (
-    <div className="w-full max-w-3xl m-auto my-8 border border-zinc-700 p rounded-md">
+    <div className="p m-auto my-8 w-full max-w-3xl rounded-md border border-zinc-700">
       <div className="px-5 py-4">
         <h3 className="mb-1 text-2xl font-medium text-dark dark:text-white">
           {title}
@@ -24,7 +26,7 @@ function Card({ title, description, footer, children }: Props) {
         <Text>{description}</Text>
         {children}
       </div>
-      <div className="p-4 border-t border-zinc-700 bg-zinc-200 dark:bg-zinc-900 text-zinc-500 rounded-b-md">
+      <div className="rounded-b-md border-t border-zinc-700 bg-zinc-200 p-4 text-zinc-500 dark:bg-zinc-900">
         {footer}
       </div>
     </div>
@@ -46,8 +48,11 @@ export default function Account() {
 
   return (
     <section className="h-screen bg-white dark:bg-dark">
-      <div className="max-w-6xl px-4 pt-8 pb-8 mx-auto sm:pt-24 sm:px-6 lg:px-8">
-        <div className="sm:flex sm:flex-col sm:align-center">
+      <Head>
+        <title>Solpay | Account</title>
+      </Head>
+      <div className="mx-auto max-w-6xl px-4 pt-8 pb-8 sm:px-6 sm:pt-24 lg:px-8">
+        <div className="sm:align-center sm:flex sm:flex-col">
           <h1 className="text-4xl font-extrabold text-gray-600 dark:text-snow sm:text-center sm:text-6xl">
             Account
           </h1>

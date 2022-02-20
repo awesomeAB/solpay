@@ -10,6 +10,7 @@ import { Text } from "components";
 import Logo from "components/icons/Logo";
 import { useUser } from "utils/useUser";
 import { Provider } from "@supabase/supabase-js";
+import Head from "next/head";
 
 const SignIn = () => {
   const [email, setEmail] = useState("");
@@ -59,8 +60,11 @@ const SignIn = () => {
 
   if (!user)
     return (
-      <div className="flex justify-center h-screen">
-        <div className="flex flex-col justify-between max-w-lg p-3 m-auto w-80 ">
+      <div className="flex h-screen justify-center">
+        <Head>
+          <title>Solpay | Sign In</title>
+        </Head>
+        <div className="m-auto flex w-80 max-w-lg flex-col justify-between p-3 ">
           <div className="flex items-center justify-center pb-12">
             <Logo width="64px" height="64px" />
             <Text className="pl-2 text-xl font-bold">Sign In</Text>
@@ -128,10 +132,10 @@ const SignIn = () => {
               </form>
             )}
 
-            <span className="pt-1 text-sm text-center">
+            <span className="pt-1 text-center text-sm">
               <a
                 href="#"
-                className="cursor-pointer text-zinc-200 text-accent-9 hover:underline"
+                className="text-accent-9 cursor-pointer text-zinc-200 hover:underline"
                 onClick={() => {
                   if (showPasswordInput) setPassword("");
                   setShowPasswordInput(!showPasswordInput);
@@ -144,25 +148,25 @@ const SignIn = () => {
               </a>
             </span>
 
-            <span className="pt-1 text-sm text-center">
+            <span className="pt-1 text-center text-sm">
               <span className="text-zinc-200">Don't have an account?</span>
               {` `}
               <Link href="/signup">
-                <a className="font-bold cursor-pointer text-accent-9 hover:underline">
+                <a className="text-accent-9 cursor-pointer font-bold hover:underline">
                   Sign up.
                 </a>
               </Link>
             </span>
           </div>
 
-          <div className="flex items-center my-6">
+          <div className="my-6 flex items-center">
             <div
-              className="flex-grow mr-3 border-t border-zinc-600"
+              className="mr-3 flex-grow border-t border-zinc-600"
               aria-hidden="true"
             ></div>
             <div className="text-zinc-400">Or</div>
             <div
-              className="flex-grow ml-3 border-t border-zinc-600"
+              className="ml-3 flex-grow border-t border-zinc-600"
               aria-hidden="true"
             ></div>
           </div>

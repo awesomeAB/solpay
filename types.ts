@@ -26,6 +26,8 @@ export interface UserDetails {
   id: string /* primary key */;
   full_name?: string;
   avatar_url?: string;
+  email?: string;
+  wallet?: string;
   billing_address?: any; // type unknown;
   payment_method?: any; // type unknown;
 }
