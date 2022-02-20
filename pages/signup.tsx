@@ -1,23 +1,24 @@
-import Link from 'next/link';
-import { useRouter } from 'next/router';
-import { useEffect, useState, FormEvent } from 'react';
+import Link from "next/link";
+import { useRouter } from "next/router";
+import { useEffect, useState, FormEvent } from "react";
 
-import Button from 'components/ui/Button';
-import Input from 'components/ui/Input';
-import Logo from 'components/icons/Logo';
-import { updateUserName } from 'utils/supabase-client';
-import { useUser } from 'utils/useUser';
-import { User } from '@supabase/gotrue-js';
+import Button from "components/ui/Button";
+import Input from "components/ui/Input";
+import Logo from "components/icons/Logo";
+import { updateUserName } from "utils/supabase-client";
+import { useUser } from "utils/useUser";
+import { User } from "@supabase/gotrue-js";
+import { Text } from "components";
 
 const SignUp = () => {
   const [newUser, setNewUser] = useState<User | null>(null);
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [name, setName] = useState('');
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [name, setName] = useState("");
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState<{ type?: string; content?: string }>({
-    type: '',
-    content: ''
+    type: "",
+    content: "",
   });
   const router = useRouter();
   const { signUp, user } = useUser();
@@ -29,15 +30,15 @@ const SignUp = () => {
     setMessage({});
     const { error, user: createdUser } = await signUp({ email, password });
     if (error) {
-      setMessage({ type: 'error', content: error.message });
+      setMessage({ type: "error", content: error.message });
     } else {
       if (createdUser) {
         await updateUserName(createdUser, name);
         setNewUser(createdUser);
       } else {
         setMessage({
-          type: 'note',
-          content: 'Check your email for the confirmation link.'
+          type: "note",
+          content: "Check your email for the confirmation link.",
         });
       }
     }
@@ -46,25 +47,26 @@ const SignUp = () => {
 
   useEffect(() => {
     if (newUser || user) {
-      router.replace('/account');
+      router.replace("/account");
     }
   }, [newUser, user]);
 
   return (
-    <div className="flex justify-center height-screen-helper">
+    <div className="flex justify-center h-screen">
       <div className="flex flex-col justify-between max-w-lg p-3 m-auto w-80 ">
-        <div className="flex justify-center pb-12 ">
+        <div className="flex items-center justify-center pb-12">
           <Logo width="64px" height="64px" />
+          <Text className="pl-2 text-xl font-bold">Sign Up</Text>
         </div>
         <form onSubmit={handleSignup} className="flex flex-col space-y-4">
           {message.content && (
             <div
               className={`${
-                message.type === 'error' ? 'text-pink-500' : 'text-green-500'
+                message.type === "error" ? "text-pink-500" : "text-green-500"
               } border ${
-                message.type === 'error'
-                  ? 'border-pink-500'
-                  : 'border-green-500'
+                message.type === "error"
+                  ? "border-pink-500"
+                  : "border-green-500"
               } p-3`}
             >
               {message.content}

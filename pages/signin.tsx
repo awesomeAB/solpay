@@ -6,6 +6,7 @@ import Button from "components/ui/Button";
 import GitHub from "components/icons/GitHub";
 import Input from "components/ui/Input";
 import LoadingDots from "components/ui/LoadingDots";
+import { Text } from "components";
 import Logo from "components/icons/Logo";
 import { useUser } from "utils/useUser";
 import { Provider } from "@supabase/supabase-js";
@@ -58,10 +59,11 @@ const SignIn = () => {
 
   if (!user)
     return (
-      <div className="flex justify-center height-screen-helper">
+      <div className="flex justify-center h-screen">
         <div className="flex flex-col justify-between max-w-lg p-3 m-auto w-80 ">
-          <div className="flex justify-center pb-12 ">
+          <div className="flex items-center justify-center pb-12">
             <Logo width="64px" height="64px" />
+            <Text className="pl-2 text-xl font-bold">Sign In</Text>
           </div>
           <div className="flex flex-col space-y-4">
             {message.content && (

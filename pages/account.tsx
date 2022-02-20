@@ -36,12 +36,13 @@ export default function Account() {
 
   const [loading, setLoading] = useState(false);
   const router = useRouter();
-  const { userLoaded, user, session, userDetails, signOut } = useUser();
+  const { userLoaded, user, userDetails, signOut } = useUser();
   const wallet = useWallet();
+  console.log(userDetails);
 
   useEffect(() => {
     if (!user) router.replace("/signin");
-  }, [user]);
+  }, [router, user]);
 
   return (
     <section className="h-screen bg-white dark:bg-dark">

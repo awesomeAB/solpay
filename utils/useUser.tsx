@@ -1,8 +1,8 @@
-import { useEffect, useState, createContext, useContext } from 'react';
-import { supabase } from './supabase-client';
-import { Session, User, Provider } from '@supabase/supabase-js';
-import { UserDetails } from 'types';
-import { Subscription } from 'types';
+import { useEffect, useState, createContext, useContext } from "react";
+import { supabase } from "./supabase-client";
+import { Session, User, Provider } from "@supabase/supabase-js";
+import { UserDetails } from "types";
+import { Subscription } from "types";
 
 type UserContextType = {
   session: Session;
@@ -10,9 +10,7 @@ type UserContextType = {
   userDetails: UserDetails;
   userLoaded: boolean;
   subscription: Subscription;
-  signIn: (
-    options: SignInOptions
-  ) => Promise<{
+  signIn: (options: SignInOptions) => Promise<{
     session: Session | null;
     user: User | null;
     provider?: Provider;
@@ -20,9 +18,7 @@ type UserContextType = {
     error: Error | null;
     data: Session | null;
   }>;
-  signUp: (
-    options: SignUpOptions
-  ) => Promise<{
+  signUp: (options: SignUpOptions) => Promise<{
     user: User | null;
     session: Session | null;
     error: Error | null;
@@ -32,7 +28,7 @@ type UserContextType = {
 };
 
 export const UserContext = createContext<UserContextType | undefined>(
-  undefined
+  undefined,
 );
 
 export const UserContextProvider = (props: any) => {
@@ -50,7 +46,7 @@ export const UserContextProvider = (props: any) => {
       async (event, session) => {
         setSession(session);
         setUser(session?.user ?? null);
-      }
+      },
     );
 
     return () => {
@@ -59,12 +55,12 @@ export const UserContextProvider = (props: any) => {
   }, []);
 
   const getUserDetails = () =>
-    supabase.from<UserDetails>('users').select('*').single();
+    supabase.from<UserDetails>("users").select("*").single();
   const getSubscription = () =>
     supabase
-      .from<Subscription>('subscriptions')
-      .select('*, prices(*, products(*))')
-      .in('status', ['trialing', 'active'])
+      .from<Subscription>("subscriptions")
+      .select("*, prices(*, products(*))")
+      .in("status", ["trialing", "active"])
       .single();
 
   useEffect(() => {
@@ -74,15 +70,14 @@ export const UserContextProvider = (props: any) => {
           const userDetailsPromise = results[0];
           const subscriptionPromise = results[1];
 
-          console.log('subscription', subscriptionPromise);
-          if (userDetailsPromise.status === 'fulfilled')
+          if (userDetailsPromise.status === "fulfilled")
             setUserDetails(userDetailsPromise.value.data);
 
-          if (subscriptionPromise.status === 'fulfilled')
+          if (subscriptionPromise.status === "fulfilled")
             setSubscription(subscriptionPromise.value.data);
 
           setUserLoaded(true);
-        }
+        },
       );
     }
   }, [user]);
@@ -99,7 +94,7 @@ export const UserContextProvider = (props: any) => {
       setUserDetails(null);
       setSubscription(null);
       return supabase.auth.signOut();
-    }
+    },
   };
 
   return <UserContext.Provider value={value} {...props} />;
