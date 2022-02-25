@@ -1,37 +1,14 @@
 import { useRouter } from "next/router";
-import { useState, useEffect, ReactNode } from "react";
+import { useState, useEffect } from "react";
 
 import LoadingDots from "components/ui/LoadingDots";
 import Button from "components/ui/Button";
 import { useUser } from "utils/useUser";
-import { WalletConnectModal, Text } from "components";
+import { WalletConnectModal, Text, Card } from "components";
 import { useWallet } from "@solana/wallet-adapter-react";
 import Head from "next/head";
-import { updateUserName, updateUserWallet } from "utils/supabase-client";
-
-interface Props {
-  title: string;
-  description?: string;
-  footer?: ReactNode;
-  children: ReactNode;
-}
-
-function Card({ title, description, footer, children }: Props) {
-  return (
-    <div className="p m-auto my-8 w-full max-w-3xl rounded-md border border-zinc-700">
-      <div className="px-5 py-4">
-        <h3 className="mb-1 text-2xl font-medium text-dark dark:text-white">
-          {title}
-        </h3>
-        <Text>{description}</Text>
-        {children}
-      </div>
-      <div className="rounded-b-md border-t border-zinc-700 bg-zinc-200 p-4 text-zinc-500 dark:bg-zinc-900">
-        {footer}
-      </div>
-    </div>
-  );
-}
+import { updateUserWallet } from "utils/supabase-client";
+import sliceAddress from "utils/helpers";
 
 export default function Account() {
   const [isOpen, setIsOpen] = useState<boolean>(false);
@@ -63,9 +40,9 @@ export default function Account() {
       <Head>
         <title>Solpay | Account</title>
       </Head>
-      <div className="mx-auto max-w-6xl px-4 pt-8 pb-8 sm:px-6 sm:pt-24 lg:px-8">
+      <div className="mx-auto mt-8 max-w-6xl px-4 pt-16 pb-8 sm:px-6 sm:pt-24 lg:px-8">
         <div className="sm:align-center sm:flex sm:flex-col">
-          <h1 className="text-4xl font-extrabold text-gray-600 dark:text-snow sm:text-center sm:text-6xl">
+          <h1 className="text-2xl font-bold text-gray-600 dark:text-snow sm:text-center sm:text-4xl">
             Account
           </h1>
         </div>
@@ -94,9 +71,11 @@ export default function Account() {
           }
         >
           <div className="mt-8 mb-4 text-xl font-semibold">
-            {userLoaded ? (
-              userDetails.wallet ? (
-                <Text color="text-green-400">{userDetails.wallet}</Text>
+            {!loading && userLoaded ? (
+              userDetails?.wallet ? (
+                <Text color="text-green-400">
+                  {sliceAddress(userDetails.wallet)}
+                </Text>
               ) : (
                 <Text color="text-red-300">Wallet not connected.</Text>
               )

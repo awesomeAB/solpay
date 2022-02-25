@@ -5,6 +5,7 @@ import Logo from "components/icons/Logo";
 import { useUser } from "utils/useUser";
 import c from "classnames";
 import { useTheme } from "next-themes";
+import { useRouter } from "next/router";
 
 const ThemeToggle = () => {
   const { theme, setTheme } = useTheme();
@@ -23,22 +24,23 @@ const ThemeToggle = () => {
 };
 
 const Navbar = () => {
-  const { user, signOut } = useUser();
-
+  const { user } = useUser();
+  const { pathname } = useRouter();
+  const isAccountPage = pathname.includes("account");
   return (
-    <nav className={c(s.root, "bg-snow dark:bg-dark")}>
+    <nav className={c(s.root, "bg-snow dark:bg-zinc-900")}>
       <a href="#skip" className="sr-only focus:not-sr-only">
         Skip to content
       </a>
-      <div className="max-w-6xl px-6 mx-auto">
-        <div className="relative flex flex-row justify-between py-4 align-center md:py-6">
-          <div className="flex items-center flex-1">
+      <div className="mx-auto max-w-6xl px-6">
+        <div className="align-center relative flex flex-row justify-between py-4 md:py-6">
+          <div className="flex flex-1 items-center">
             <Link href="/">
               <a className={s.logo} aria-label="Logo">
                 <Logo />
               </a>
             </Link>
-            {/* <nav className="hidden ml-6 space-x-2 lg:block">
+            {/* <nav className="ml-6 hidden space-x-2 lg:block">
               <Link href="/">
                 <a className={c(s.link, "text-dark dark:text-snow")}>Pricing</a>
               </Link>
@@ -48,21 +50,19 @@ const Navbar = () => {
             </nav> */}
           </div>
 
-          <div className="flex justify-end flex-1 space-x-8">
-            {/* {user ? (
-              <Link href="#">
-                <a
-                  className={c(s.link, "text-dark dark:text-snow")}
-                  onClick={() => signOut()}
-                >
-                  Sign out
-                </a>
-              </Link>
-            ) : (
-              <Link href="/signin">
-                <a className={s.link}>Sign in</a>
-              </Link>
-            )} */}
+          <div className="flex flex-1 justify-end space-x-8">
+            {user ? (
+              isAccountPage ? (
+                <Link href="/dashboard">
+                  <a className={s.link}>Dashboard</a>
+                </Link>
+              ) : (
+                <Link href="/account">
+                  <a className={s.link}>Account</a>
+                </Link>
+              )
+            ) : null}
+
             <ThemeToggle />
           </div>
         </div>
