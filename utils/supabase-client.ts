@@ -33,3 +33,12 @@ export const updateUserName = async (user: User, name: string) => {
     })
     .eq("id", user.id);
 };
+
+export const updateUserWallet = async (user: User, wallet: string) => {
+  await supabase
+    .from<UserDetails>("users")
+    .update({
+      wallet,
+    })
+    .eq("id", user.id);
+};

@@ -4,10 +4,10 @@ import { useState, useEffect, ReactNode } from "react";
 import LoadingDots from "components/ui/LoadingDots";
 import Button from "components/ui/Button";
 import { useUser } from "utils/useUser";
-import { postData } from "utils/helpers";
 import { WalletConnectModal, Text } from "components";
 import { useWallet } from "@solana/wallet-adapter-react";
 import Head from "next/head";
+import { updateUserName, updateUserWallet } from "utils/supabase-client";
 
 interface Props {
   title: string;
@@ -40,12 +40,24 @@ export default function Account() {
   const router = useRouter();
   const { userLoaded, user, userDetails, signOut } = useUser();
   const wallet = useWallet();
-  console.log(userDetails);
+  const { publicKey } = wallet;
 
   useEffect(() => {
     if (!user) router.replace("/signin");
   }, [router, user]);
 
+  useEffect(() => {
+    if (publicKey && !userDetails.wallet) {
+      setLoading(true);
+      updateUserWallet(user, publicKey.toBase58())
+        .then(() => setLoading(false))
+        .catch((e) => {
+          setLoading(false);
+          console.error(e);
+        });
+    }
+  }, [publicKey, userDetails, user]);
+  const walletExists = !!userDetails?.wallet;
   return (
     <section className="h-screen bg-white dark:bg-dark">
       <Head>
@@ -65,25 +77,31 @@ export default function Account() {
           footer={
             <div className="flex flex-col items-start justify-between sm:flex-row sm:items-center">
               <p className="pb-4 sm:pb-0">
-                {wallet.publicKey
-                  ? "Please contact support if you want to update the Merchant Wallet*"
+                {walletExists
+                  ? "Wallet synced successfully."
                   : "Please connect using your Solana wallet to continue."}
               </p>
-              <Button
-                variant="slim"
-                disabled={!!wallet.publicKey}
-                onClick={() => setIsOpen(true)}
-              >
-                Connect Wallet
-              </Button>
+              {
+                <Button
+                  variant="slim"
+                  disabled={walletExists || !userLoaded}
+                  onClick={() => setIsOpen(true)}
+                >
+                  Connect Wallet
+                </Button>
+              }
             </div>
           }
         >
           <div className="mt-8 mb-4 text-xl font-semibold">
-            {wallet.publicKey ? (
-              <Text color="text-green-400">{wallet.publicKey.toBase58()}</Text>
+            {userLoaded ? (
+              userDetails.wallet ? (
+                <Text color="text-green-400">{userDetails.wallet}</Text>
+              ) : (
+                <Text color="text-red-300">Wallet not connected.</Text>
+              )
             ) : (
-              <Text color="text-red-300">Wallet not connected.</Text>
+              <LoadingDots />
             )}
           </div>
         </Card>
