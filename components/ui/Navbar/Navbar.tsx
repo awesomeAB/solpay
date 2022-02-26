@@ -33,7 +33,7 @@ const Navbar = () => {
         Skip to content
       </a>
       <div className="mx-auto max-w-6xl px-6">
-        <div className="align-center relative flex flex-row justify-between py-4 md:py-6">
+        <div className="align-center relative flex flex-row justify-between py-2 sm:py-4">
           <div className="flex flex-1 items-center">
             <Link href="/">
               <a className={s.logo} aria-label="Logo">
