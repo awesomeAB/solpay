@@ -38,8 +38,8 @@ const Demo: FC<Props> = ({ wallet, connect }) => {
     } catch (e: any) {
       console.error(e);
       setError(e.message ?? "Something went wrong :(");
+      setLoading(false);
     }
-    setLoading(false);
   };
 
   useEffect(() => {
@@ -64,11 +64,11 @@ const Demo: FC<Props> = ({ wallet, connect }) => {
       {loading ? (
         <div className="flex flex-col items-center justify-center pt-32">
           <div className="h-24 w-24 animate-spin rounded-full border-t-4 border-b-4 border-solanaGreen"></div>
-          <Text className="mt-8">Processing transaction...</Text>
+          <Text className="mt-8 text-lg">Processing transaction...</Text>
           {signature && (
             <a
               href={`https://explorer.solana.com/tx/${signature}?cluster=devnet`}
-              className="mt-8 cursor-pointer text-xl hover:text-solanaGreen hover:underline"
+              className="mt-2 cursor-pointer text-sm hover:text-solanaGreen hover:underline"
               target="_blank"
               rel="noreferrer"
             >
@@ -97,9 +97,10 @@ const Demo: FC<Props> = ({ wallet, connect }) => {
             width={128}
             height={128}
           />
+          <Text className="mt-8 text-lg">Transaction Successful</Text>
           <a
             href={`https://explorer.solana.com/tx/${hash}?cluster=devnet`}
-            className="mt-8 cursor-pointer text-xl hover:text-solanaGreen hover:underline"
+            className="mt-2 cursor-pointer text-sm hover:text-solanaGreen hover:underline"
             target="_blank"
             rel="noreferrer"
           >
@@ -130,13 +131,13 @@ const Demo: FC<Props> = ({ wallet, connect }) => {
                 <div className="absolute inset-0.5 rounded-xl bg-gradient-to-r from-solanaGreen to-purple-600 opacity-80 blur-lg filter transition duration-200 group-hover:opacity-100" />
                 <button
                   className="relative inset-0 flex w-full items-center justify-center rounded-xl bg-white py-4 px-16 leading-none focus:outline-none dark:bg-dark"
-                  onClick={handlePay}
+                  onClick={() => handlePay()}
                 >
                   <SolanaPayLogo />
                 </button>
               </div>
             ) : (
-              <HeroButton label="Connect Wallet" onClick={connect} />
+              <HeroButton label="Connect Wallet" onClick={() => connect()} />
             )}
           </div>
           <Text className="text-xs" color="text-red-400">

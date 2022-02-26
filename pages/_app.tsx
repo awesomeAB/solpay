@@ -13,7 +13,7 @@ import { ConfigProvider } from "providers/ConfigProvider";
 import { PublicKey } from "@solana/web3.js";
 import SolanaPayLogo from "components/Images/SolanaPayLogo";
 
-const RECIPIENT = new PublicKey("3vnSCVBAo8Kn9jv5zCV5WkzhCqHdgi7NAwj3khqK7K8L");
+const RECIPIENT = new PublicKey(process.env.NEXT_PUBLIC_RECIPIENT_KEY ?? "");
 
 const WalletConnectionProvider = dynamic<{ children: ReactNode }>(
   () =>
@@ -36,7 +36,6 @@ const App: FC<AppProps> = ({ Component, pageProps }: AppProps) => {
           icon={<SolanaPayLogo />}
           decimals={9}
           minDecimals={1}
-          connectWallet={true}
         >
           <PaymentProvider>
             <ThemeProvider attribute="class" defaultTheme="dark">

@@ -26,7 +26,7 @@ const Button: FC<Props> = ({ label, onClick, leftIcon, type = "neutral" }) => {
     <button
       onClick={onClick}
       className={cn(
-        "group bg-black-100 my-2 flex w-full cursor-pointer justify-center rounded-2xl border bg-snow px-4 py-3 dark:bg-dark sm:px-12",
+        "group bg-black-100 my-2 flex w-full cursor-pointer justify-center rounded-2xl border px-4 py-3 dark:bg-dark sm:px-12",
         borderColor[type],
       )}
     >

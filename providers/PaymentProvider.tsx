@@ -32,7 +32,8 @@ export interface PaymentProviderProps {
   children: ReactNode;
 }
 
-const INDEX = new PublicKey("Gi5ahPsJvgWgdrUifJh9tFxj5Y41GUY2yfHKWrh5R1ou");
+const INDEX_KEY = new PublicKey(process.env.NEXT_PUBLIC_INDEX_KEY ?? "");
+
 const getNewAddress = (): PublicKey => {
   return Keypair.generate().publicKey;
 };
@@ -46,7 +47,10 @@ export const PaymentProvider: FC<PaymentProviderProps> = ({ children }) => {
   const [amount, setAmount] = useState<BigNumber | undefined>(new BigNumber(1));
   const [message, setMessage] = useState<string>();
   const [memo, setMemo] = useState<string>();
-  const [reference, setReference] = useState<PublicKey>(getNewAddress());
+  const [reference, setReference] = useState<PublicKey[]>([
+    getNewAddress(),
+    INDEX_KEY,
+  ]);
 
   const [signature, setSignature] = useState<TransactionSignature>();
   const [status, setStatus] = useState(PaymentStatus.New);
@@ -73,7 +77,7 @@ export const PaymentProvider: FC<PaymentProviderProps> = ({ children }) => {
 
   const reset = useCallback(() => {
     setAmount(new BigNumber(1));
-    setReference(getNewAddress());
+    setReference([getNewAddress(), INDEX_KEY]);
     setStatus(PaymentStatus.New);
     setMessage(undefined);
     setMemo(undefined);
@@ -90,7 +94,7 @@ export const PaymentProvider: FC<PaymentProviderProps> = ({ children }) => {
   useEffect(() => {
     if (status === PaymentStatus.New && amount) {
       setStatus(PaymentStatus.Pending);
-      setReference(getNewAddress());
+      setReference([getNewAddress(), INDEX_KEY]);
     }
   }, [status, amount]);
 
@@ -137,7 +141,8 @@ export const PaymentProvider: FC<PaymentProviderProps> = ({ children }) => {
 
   // When the status is pending, poll for the transaction using the reference key
   useEffect(() => {
-    if (!(status === PaymentStatus.Pending && reference && !signature)) return;
+    if (!(status === PaymentStatus.Pending && reference.length && !signature))
+      return;
     let changed = false;
 
     const interval = setInterval(async () => {
@@ -145,7 +150,7 @@ export const PaymentProvider: FC<PaymentProviderProps> = ({ children }) => {
       try {
         signature = await findTransactionSignature(
           connection,
-          reference,
+          reference[0],
           undefined,
           "confirmed",
         );
