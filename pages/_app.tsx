@@ -8,6 +8,12 @@ import { Toaster } from "react-hot-toast";
 import dynamic from "next/dynamic";
 import { UserContextProvider } from "utils/useUser";
 import Navbar from "components/ui/Navbar";
+import { PaymentProvider } from "providers/PaymentProvider";
+import { ConfigProvider } from "providers/ConfigProvider";
+import { PublicKey } from "@solana/web3.js";
+import SolanaPayLogo from "components/Images/SolanaPayLogo";
+
+const RECIPIENT = new PublicKey("3vnSCVBAo8Kn9jv5zCV5WkzhCqHdgi7NAwj3khqK7K8L");
 
 const WalletConnectionProvider = dynamic<{ children: ReactNode }>(
   () =>
@@ -23,11 +29,23 @@ const App: FC<AppProps> = ({ Component, pageProps }: AppProps) => {
   return (
     <WalletConnectionProvider>
       <UserContextProvider>
-        <ThemeProvider attribute="class" defaultTheme="dark">
-          <Navbar />
-          <Component {...pageProps} />
-        </ThemeProvider>
-        <Toaster position="bottom-center" />
+        <ConfigProvider
+          recipient={RECIPIENT}
+          label={"Solpay"}
+          symbol="SOL"
+          icon={<SolanaPayLogo />}
+          decimals={9}
+          minDecimals={1}
+          connectWallet={true}
+        >
+          <PaymentProvider>
+            <ThemeProvider attribute="class" defaultTheme="dark">
+              <Navbar />
+              <Component {...pageProps} />
+            </ThemeProvider>
+            <Toaster position="bottom-center" />
+          </PaymentProvider>
+        </ConfigProvider>
       </UserContextProvider>
     </WalletConnectionProvider>
   );

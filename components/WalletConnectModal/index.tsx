@@ -1,10 +1,12 @@
 import { Dialog, Transition } from "@headlessui/react";
-import { FC, Fragment, useRef } from "react";
+import { FC, Fragment, useRef, useState } from "react";
 
 import Demo from "./Demo";
+import NewDemo from "./NewDemo";
 import WalletConnect from "./WalletConnect";
 import { WalletContextState } from "@solana/wallet-adapter-react";
 import { PublicKey } from "@solana/web3.js";
+import { Text } from "components";
 
 interface Props {
   isOpen: boolean;
@@ -22,7 +24,16 @@ const WalletConnectModal: FC<Props> = ({
   wallet,
 }) => {
   const closeButtonRef = useRef(null);
-  const { publicKey, disconnect } = wallet;
+  const [showConnectModal, setShowConnectModal] = useState<boolean>(false);
+  // const { publicKey, disconnect } = wallet;
+  const defaultCallback = () => {
+    setShowConnectModal(false);
+  };
+
+  const handleClose = () => {
+    setIsOpen(false);
+    setShowConnectModal(false);
+  };
 
   return (
     <Transition.Root show={isOpen} as={Fragment}>
@@ -30,9 +41,9 @@ const WalletConnectModal: FC<Props> = ({
         as="div"
         className="fixed inset-0 z-10 overflow-y-auto"
         initialFocus={closeButtonRef}
-        onClose={() => setIsOpen(false)}
+        onClose={handleClose}
       >
-        <div className="flex items-center justify-center min-h-screen text-center sm:p-0">
+        <div className="flex min-h-screen items-center justify-center text-center sm:p-0">
           <Transition.Child
             as={Fragment}
             enter="ease-out duration-300"
@@ -54,19 +65,26 @@ const WalletConnectModal: FC<Props> = ({
             leaveFrom="opacity-100 translate-y-0 sm:scale-100"
             leaveTo="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
           >
-            <div className="p-2 overflow-hidden shadow-xl demo-modal rounded-xl bg-snow dark:bg-dark transform transition-all">
-              <div className="flex flex-col">
-                <div className="flex justify-end">
+            <div className="demo-modal transform overflow-hidden rounded-xl bg-white p-2 shadow-xl transition-all dark:bg-dark">
+              <div className="flex h-full flex-col">
+                <div className="flex items-center justify-end">
                   <i
-                    className="text-4xl cursor-pointer ri-close-line hover:text-solanaGreen"
-                    onClick={() => setIsOpen(false)}
+                    className="ri-close-line cursor-pointer text-3xl hover:text-red-400"
+                    onClick={handleClose}
                     ref={closeButtonRef}
                   />
                 </div>
-                {publicKey && showDemo ? (
-                  <Demo publicKey={publicKey} handleDisconnect={disconnect} />
+                {showDemo && !showConnectModal ? (
+                  <NewDemo
+                    wallet={wallet}
+                    connect={() => setShowConnectModal(true)}
+                  />
                 ) : (
-                  <WalletConnect callback={callback} wallet={wallet} />
+                  // <Demo publicKey={publicKey} handleDisconnect={disconnect} />
+                  <WalletConnect
+                    callback={callback ?? defaultCallback}
+                    wallet={wallet}
+                  />
                 )}
               </div>
             </div>

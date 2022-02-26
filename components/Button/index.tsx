@@ -7,7 +7,7 @@ interface Props {
   label: string;
   onClick: () => void;
   leftIcon?: string;
-  type: "positive" | "negative" | "neutral";
+  type?: "positive" | "negative" | "neutral";
 }
 
 const borderColor = {
@@ -21,16 +21,18 @@ const textColor = {
   neutral: "",
 };
 
-const Button: FC<Props> = ({ label, onClick, leftIcon, type }) => {
+const Button: FC<Props> = ({ label, onClick, leftIcon, type = "neutral" }) => {
   return (
     <button
       onClick={onClick}
       className={cn(
-        "flex justify-center w-full px-4 py-3 my-2 border cursor-pointer group sm:px-12 bg-snow dark:bg-dark rounded-2xl bg-black-100",
+        "group bg-black-100 my-2 flex w-full cursor-pointer justify-center rounded-2xl border bg-snow px-4 py-3 dark:bg-dark sm:px-12",
         borderColor[type],
       )}
     >
-      <Text color={textColor[type]}>{label}</Text>
+      <Text color={textColor[type]} className="cursor-pointer">
+        {label}
+      </Text>
     </button>
   );
 };

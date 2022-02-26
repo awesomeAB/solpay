@@ -6,7 +6,8 @@ import { useEffect } from "react";
 import { useRouter } from "next/router";
 import { Card } from "components";
 import Button from "components/ui/Button";
-// const products = [1, 2, 3];
+import { usePayment } from "hooks/usePayment";
+
 const products = [
   {
     id: 1,
@@ -31,6 +32,7 @@ const products = [
 const Dashboard: NextPage = () => {
   const { user } = useUser();
   const router = useRouter();
+  const pay = usePayment();
 
   useEffect(() => {
     if (!user) router.replace("/signin");
@@ -62,7 +64,7 @@ const Dashboard: NextPage = () => {
                     type="button"
                     disabled={product.disable}
                     loading={false}
-                    onClick={() => console.log("a")}
+                    onClick={() => pay.generate()}
                     className="mt-8 block w-full py-2 text-center text-sm font-semibold text-white hover:bg-zinc-900"
                   >
                     {product.disable ? "Coming Soon" : "Get Started"}

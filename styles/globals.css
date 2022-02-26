@@ -3,12 +3,12 @@
 @tailwind utilities;
 
 .demo-modal {
-  min-height: 530px;
+  min-height: 556px;
   min-width: 360px;
 }
 
 @media only screen and (min-width: 420px) {
   .demo-modal {
-    min-width: 420px;
+    width: 420px;
   }
 }

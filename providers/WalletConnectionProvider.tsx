@@ -25,9 +25,9 @@ export const WalletConnectionProvider: FC<{ children: ReactNode }> = ({
 
   const wallets = useMemo(
     () => [
-      new LedgerWalletAdapter(),
       new PhantomWalletAdapter(),
       new SlopeWalletAdapter(),
+      new LedgerWalletAdapter(),
       new SolflareWalletAdapter(),
       new SolongWalletAdapter(),
     ],

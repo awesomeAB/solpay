@@ -3,7 +3,6 @@ import { FC, useEffect } from "react";
 import Image from "next/image";
 import { Text } from "components";
 import toast from "react-hot-toast";
-import SolanaPayLogo from "components/Images/SolanaPayLogo";
 import { WalletContextState } from "@solana/wallet-adapter-react";
 
 type Props = {
@@ -30,15 +29,15 @@ const WalletConnect: FC<Props> = ({ callback, wallet }) => {
 
   return (
     <div className="mx-4 mt-4">
-      <Text className="max-w-lg mb-4 text-xl">
+      <Text className="mb-8 max-w-lg text-xl">
         Select your wallet to continue
       </Text>
-      <div className="flex flex-col px-4 mx-8 my-4">
+      <div className="mx-8 my-4 flex flex-col px-4">
         {wallets.map((wallet) => (
           <div
             key={wallet.adapter.name}
             onClick={() => select(wallet.adapter.name)}
-            className="flex justify-center w-full py-3 my-2 bg-gray-400 border cursor-pointer bg-opacity-10 dark:bg-dark rounded-2xl bg-black-100 hover:border-solanaGreen"
+            className="bg-black-100 my-2 flex w-full cursor-pointer justify-center rounded-2xl border bg-gray-400 bg-opacity-10 py-3 hover:border-solanaGreen dark:bg-dark"
           >
             <Image
               src={wallet.adapter.icon}
@@ -49,10 +48,6 @@ const WalletConnect: FC<Props> = ({ callback, wallet }) => {
             <Text className="pl-4 text-xl">{wallet.adapter.name}</Text>
           </div>
         ))}
-      </div>
-      <div className="flex items-center justify-center w-full h-8">
-        <Text className="mr-2 text-md">Powered by</Text>
-        <SolanaPayLogo />
       </div>
     </div>
   );
