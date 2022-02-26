@@ -13,6 +13,7 @@ import {
   ConfirmedSignatureInfo,
   PublicKey,
   TransactionSignature,
+  Keypair,
 } from "@solana/web3.js";
 import BigNumber from "bignumber.js";
 import React, {
@@ -31,6 +32,11 @@ export interface PaymentProviderProps {
   children: ReactNode;
 }
 
+const INDEX = new PublicKey("Gi5ahPsJvgWgdrUifJh9tFxj5Y41GUY2yfHKWrh5R1ou");
+const getNewAddress = (): PublicKey => {
+  return Keypair.generate().publicKey;
+};
+
 export const PaymentProvider: FC<PaymentProviderProps> = ({ children }) => {
   const { connection } = useConnection();
   const { recipient, splToken, label, requiredConfirmations, connectWallet } =
@@ -40,7 +46,8 @@ export const PaymentProvider: FC<PaymentProviderProps> = ({ children }) => {
   const [amount, setAmount] = useState<BigNumber | undefined>(new BigNumber(1));
   const [message, setMessage] = useState<string>();
   const [memo, setMemo] = useState<string>();
-  const [reference, setReference] = useState<PublicKey>();
+  const [reference, setReference] = useState<PublicKey>(getNewAddress());
+
   const [signature, setSignature] = useState<TransactionSignature>();
   const [status, setStatus] = useState(PaymentStatus.New);
   const [confirmations, setConfirmations] = useState<Confirmations>(0);
@@ -65,25 +72,27 @@ export const PaymentProvider: FC<PaymentProviderProps> = ({ children }) => {
   );
 
   const reset = useCallback(() => {
-    setAmount(undefined);
+    setAmount(new BigNumber(1));
+    setReference(getNewAddress());
+    setStatus(PaymentStatus.New);
     setMessage(undefined);
     setMemo(undefined);
-    setReference(undefined);
     setSignature(undefined);
-    setStatus(PaymentStatus.New);
     setConfirmations(0);
-    // navigate("/new", { replace: true });
   }, []);
 
   const generate = useCallback(() => {
-    if (status === PaymentStatus.New && !reference) {
-      setReference(
-        new PublicKey("3vnSCVBAo8Kn9jv5zCV5WkzhCqHdgi7NAwj3khqK7K8L"),
-      );
+    if (status === PaymentStatus.New) {
       setStatus(PaymentStatus.Pending);
-      //   navigate("/pending");
     }
-  }, [status, reference]);
+  }, [status]);
+
+  useEffect(() => {
+    if (status === PaymentStatus.New && amount) {
+      setStatus(PaymentStatus.Pending);
+      setReference(getNewAddress());
+    }
+  }, [status, amount]);
 
   // If there's a connected wallet, use it to sign and send the transaction
   useEffect(() => {

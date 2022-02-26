@@ -19,7 +19,7 @@ export interface PaymentContextState {
   setMessage(message: string | undefined): void;
   memo: string | undefined;
   setMemo(memo: string | undefined): void;
-  reference: PublicKey | undefined;
+  reference: PublicKey | PublicKey[];
   signature: TransactionSignature | undefined;
   status: PaymentStatus;
   confirmations: Confirmations;

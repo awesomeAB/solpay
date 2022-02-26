@@ -1,8 +1,8 @@
 import { WalletContextState } from "@solana/wallet-adapter-react";
 import { Button, HeroButton, Text } from "components";
-import React, { FC, useState } from "react";
+import React, { FC, useEffect, useState } from "react";
 import { QRCode } from "components/QRCode";
-import { usePayment } from "hooks/usePayment";
+import { PaymentStatus, usePayment } from "hooks/usePayment";
 import SolanaPayLogo from "components/Images/SolanaPayLogo";
 import BigNumber from "bignumber.js";
 import Image from "next/image";
@@ -14,7 +14,8 @@ type Props = {
 };
 
 const Demo: FC<Props> = ({ wallet, connect }) => {
-  const { url, amount, setAmount, payWithWallet } = usePayment();
+  const { url, amount, setAmount, payWithWallet, status, signature, reset } =
+    usePayment();
   const [amountInput, setAmountInput] = useState<string>(
     amount?.toString() ?? "",
   );
@@ -41,12 +42,39 @@ const Demo: FC<Props> = ({ wallet, connect }) => {
     setLoading(false);
   };
 
+  useEffect(() => {
+    if (status === PaymentStatus.Confirmed) {
+      setLoading(true);
+    } else if (status === PaymentStatus.Finalized) {
+      setLoading(false);
+      setHash(signature ?? "");
+    }
+  }, [status, signature]);
+
+  const handleReset = () => {
+    reset();
+    setAmountInput("1");
+    setHash("");
+    setError("");
+    setLoading(false);
+  };
+
   return (
     <div className="flex flex-col justify-center">
       {loading ? (
         <div className="flex flex-col items-center justify-center pt-32">
           <div className="h-24 w-24 animate-spin rounded-full border-t-4 border-b-4 border-solanaGreen"></div>
           <Text className="mt-8">Processing transaction...</Text>
+          {signature && (
+            <a
+              href={`https://explorer.solana.com/tx/${signature}?cluster=devnet`}
+              className="mt-8 cursor-pointer text-xl hover:text-solanaGreen hover:underline"
+              target="_blank"
+              rel="noreferrer"
+            >
+              Check status: {shortenAddress(signature, 6)}
+            </a>
+          )}
         </div>
       ) : error ? (
         <div className="flex h-full flex-col items-center justify-center pt-32">
@@ -58,14 +86,10 @@ const Demo: FC<Props> = ({ wallet, connect }) => {
           />
           <Text className="mt-8">Error: {error}</Text>
           <div className="mt-4 flex px-8">
-            <Button
-              label="Try Again"
-              onClick={() => setError("")}
-              type="positive"
-            />
+            <Button label="Try Again" onClick={handleReset} type="positive" />
           </div>
         </div>
-      ) : hash ? (
+      ) : status === PaymentStatus.Finalized ? (
         <div className="flex h-full flex-col items-center justify-center pt-32">
           <Image
             src="/success.png"
@@ -82,11 +106,7 @@ const Demo: FC<Props> = ({ wallet, connect }) => {
             Explore: {shortenAddress(hash, 6)}
           </a>
           <div className="mt-4 flex px-8">
-            <Button
-              label="Start Over"
-              onClick={() => setHash("")}
-              type="positive"
-            />
+            <Button label="Start Over" onClick={handleReset} type="positive" />
           </div>
         </div>
       ) : (

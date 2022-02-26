@@ -83,7 +83,7 @@ const Home: NextPage = () => {
     <section className="h-screen dark:bg-dark">
       <div className="flex h-full justify-center ">
         <Head>
-          <title>Solpay - Start accepting SOLANA payments today!</title>
+          <title>Solpay - Future of payments powered by Solana pay!</title>
           <meta
             name="description"
             content="Start accepting Solana payments today!"
@@ -91,15 +91,16 @@ const Home: NextPage = () => {
         </Head>
         <main className="container mt-32 mb-8 flex flex-col items-center justify-center">
           <section className="mt-4 mb-16 px-4 text-center">
-            <Text className="my-4 text-5xl">
-              Start accepting{" "}
+            <Text className="text-5xl ">
+              Welcome to the{" "}
               <span className="bg-gradient-to-br from-solanaGreen to-purple-600 bg-clip-text font-extrabold text-transparent">
-                SOLANA
+                FUTURE
               </span>{" "}
-              payments today!
+              of payments!
             </Text>
-            <Text className="text-2xl ">
-              It'll only take a few minutes to set up.
+            <Text className="my-4 text-2xl">
+              Instant settlements at virtually zero cost, powered by the
+              blockchain.
             </Text>
           </section>
           <div className="flex flex-wrap items-center justify-center">
