@@ -7,6 +7,7 @@ import { useRouter } from "next/router";
 import { Card } from "components";
 import Button from "components/ui/Button";
 import { usePayment } from "hooks/usePayment";
+import enforceAuthenticated from "utils/enforce-authenticated";
 
 const products = [
   {
@@ -80,3 +81,5 @@ const Dashboard: NextPage = () => {
 };
 
 export default Dashboard;
+
+export const getServerSideProps = enforceAuthenticated();

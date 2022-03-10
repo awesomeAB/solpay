@@ -1,6 +1,11 @@
 import { useEffect, useState, createContext, useContext } from "react";
 import { supabase } from "./supabase-client";
-import { Session, User, Provider } from "@supabase/supabase-js";
+import {
+  Session,
+  User,
+  Provider,
+  AuthChangeEvent,
+} from "@supabase/supabase-js";
 import { UserDetails } from "types";
 import { Subscription } from "types";
 
@@ -46,6 +51,7 @@ export const UserContextProvider = (props: any) => {
       async (event, session) => {
         setSession(session);
         setUser(session?.user ?? null);
+        updateSupabaseCookie(event, session);
       },
     );
 
@@ -81,6 +87,18 @@ export const UserContextProvider = (props: any) => {
       );
     }
   }, [user]);
+
+  async function updateSupabaseCookie(
+    event: AuthChangeEvent,
+    session: Session | null,
+  ) {
+    await fetch("/api/auth", {
+      method: "POST",
+      headers: new Headers({ "Content-Type": "application/json" }),
+      credentials: "same-origin",
+      body: JSON.stringify({ event, session }),
+    });
+  }
 
   const value = {
     session,
