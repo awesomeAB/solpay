@@ -2,12 +2,16 @@ import { Text } from "components";
 import type { NextPage } from "next";
 import Head from "next/head";
 import { useUser } from "utils/useUser";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import { Card } from "components";
 import Button from "components/ui/Button";
 import { usePayment } from "hooks/usePayment";
 import enforceAuthenticated from "utils/enforce-authenticated";
+import PaymentLink from "components/Payment";
+import { useWallet } from "@solana/wallet-adapter-react";
+import Table from "components/ui/Table";
+import QRModal from "components/Payment/QRModal";
 
 const products = [
   {
@@ -35,6 +39,13 @@ const Dashboard: NextPage = () => {
   const router = useRouter();
   const pay = usePayment();
 
+  const [isPaymentModalOpen, setIsPaymentModalOpen] = useState<boolean>(false);
+  const [generatedLinks, setGeneratedLinks] = useState<any>([]);
+
+  const [isQRModalOpen, setIsQRModalOpen] = useState<boolean>(false);
+  const [localUrl, setLocalUrl] = useState<any>("");
+
+  const wallet = useWallet();
   useEffect(() => {
     if (!user) router.replace("/signin");
   }, [router, user]);
@@ -65,7 +76,8 @@ const Dashboard: NextPage = () => {
                     type="button"
                     disabled={product.disable}
                     loading={false}
-                    onClick={() => pay.generate()}
+                    // onClick={() => pay.generate()}
+                    onClick={() => setIsPaymentModalOpen(true)}
                     className="mt-8 block w-full py-2 text-center text-sm font-semibold text-white hover:bg-zinc-900"
                   >
                     {product.disable ? "Coming Soon" : "Get Started"}
@@ -74,7 +86,25 @@ const Dashboard: NextPage = () => {
               </div>
             );
           })}
+          <PaymentLink
+            isOpen={isPaymentModalOpen}
+            setIsOpen={setIsPaymentModalOpen}
+            wallet={wallet}
+            setGeneratedLinks={setGeneratedLinks}
+          />
+          <QRModal
+            isOpen={isQRModalOpen}
+            setIsOpen={setIsQRModalOpen}
+            url={localUrl}
+          />
         </div>
+      </div>
+      <div className="mt-10 flex items-center justify-center">
+        <Table
+          generatedLinks={generatedLinks}
+          setLocalUrl={setLocalUrl}
+          setIsQRModalOpen={setIsQRModalOpen}
+        />
       </div>
     </section>
   );
@@ -82,4 +112,4 @@ const Dashboard: NextPage = () => {
 
 export default Dashboard;
 
-export const getServerSideProps = enforceAuthenticated();
+//export const getServerSideProps = enforceAuthenticated();
