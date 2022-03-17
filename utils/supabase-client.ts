@@ -1,5 +1,5 @@
 import { createClient, User } from "@supabase/supabase-js";
-import { ProductWithPrice, UserDetails } from "types";
+import { ProductWithPrice, UserDetails, PaymentDetails } from "types";
 
 export const supabase = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL || "",
@@ -42,3 +42,14 @@ export const updateUserWallet = async (user: User, wallet: string) => {
     })
     .eq("id", user.id);
 };
+
+export const insertPaymentDetails = async (paymentRow: any) => {
+  const { error } =  await supabase.from<PaymentDetails>("payments").insert([paymentRow])
+  if(error) throw error
+}
+
+export const getPaymentDetails = async (user: User) => {
+  const {data, error } =  await supabase.from<PaymentDetails>("payments").select("*").eq("user_id", user.id)
+  if(error) throw error
+  return data
+}

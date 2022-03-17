@@ -1,6 +1,7 @@
 import { Dialog, Transition } from "@headlessui/react";
 import { FC, Fragment, useRef, useState } from "react";
 import { QRCode } from "components/QRCode";
+import SolanaPayLogo from "components/Images/SolanaPayLogo";
 
 interface Props {
   isOpen: boolean;
@@ -61,8 +62,12 @@ const QRModal: FC<Props> = ({ isOpen, setIsOpen, callback, url }) => {
                     ref={closeButtonRef}
                   />
                 </div>
-
-                <QRCode url={url} />
+                <div className="flex flex-col items-center justify-center">
+                  <div className="mb-10">
+                    <SolanaPayLogo height={66} width={180} />
+                  </div>
+                  <QRCode url={url} />
+                </div>
               </div>
             </div>
           </Transition.Child>

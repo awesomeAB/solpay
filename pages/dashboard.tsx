@@ -12,6 +12,7 @@ import PaymentLink from "components/Payment";
 import { useWallet } from "@solana/wallet-adapter-react";
 import Table from "components/ui/Table";
 import QRModal from "components/Payment/QRModal";
+import { getPaymentDetails } from "utils/supabase-client";
 
 const products = [
   {
@@ -41,14 +42,30 @@ const Dashboard: NextPage = () => {
 
   const [isPaymentModalOpen, setIsPaymentModalOpen] = useState<boolean>(false);
   const [generatedLinks, setGeneratedLinks] = useState<any>([]);
+  const [paymentData, setPaymentData] = useState<any>([]);
 
   const [isQRModalOpen, setIsQRModalOpen] = useState<boolean>(false);
   const [localUrl, setLocalUrl] = useState<any>("");
 
   const wallet = useWallet();
+
   useEffect(() => {
     if (!user) router.replace("/signin");
   }, [router, user]);
+
+  useEffect(() => {
+    if (user) {
+      const fetchdata = async () => {
+        try {
+          const data = await getPaymentDetails(user);
+          setPaymentData(data);
+        } catch (error) {
+          console.log(error);
+        }
+      };
+      fetchdata();
+    }
+  }, [generatedLinks, user]);
 
   return (
     <section className="h-screen bg-white dark:bg-dark">
@@ -101,7 +118,7 @@ const Dashboard: NextPage = () => {
       </div>
       <div className="mt-10 flex items-center justify-center">
         <Table
-          generatedLinks={generatedLinks}
+          paymentData={paymentData}
           setLocalUrl={setLocalUrl}
           setIsQRModalOpen={setIsQRModalOpen}
         />

@@ -1,19 +1,16 @@
 import { parseURL } from "@solana/pay";
 import React, { FC } from "react";
+import { PaymentDetails } from "types";
 
 type Props = {
-  generatedLinks: any;
+  paymentData: PaymentDetails[];
   setLocalUrl: any;
   setIsQRModalOpen: any;
 };
 
-const Table: FC<Props> = ({
-  generatedLinks,
-  setIsQRModalOpen,
-  setLocalUrl,
-}) => {
-  const handleOnClickShowQR = (link: string) => {
-    setLocalUrl(link);
+const Table: FC<Props> = ({ paymentData, setIsQRModalOpen, setLocalUrl }) => {
+  const handleOnClickShowQR = (url: string) => {
+    setLocalUrl(url);
     setIsQRModalOpen(true);
   };
 
@@ -35,13 +32,13 @@ const Table: FC<Props> = ({
                     scope="col"
                     className="py-3 px-6 text-left text-xs font-medium uppercase tracking-wider text-gray-700 dark:text-gray-400"
                   >
-                    Message
+                    Amount
                   </th>
                   <th
                     scope="col"
                     className="py-3 px-6 text-left text-xs font-medium uppercase tracking-wider text-gray-700 dark:text-gray-400"
                   >
-                    Memo
+                    Reference
                   </th>
                   <th scope="col" className="relative py-3 px-6">
                     <span className="sr-only">Edit</span>
@@ -49,9 +46,11 @@ const Table: FC<Props> = ({
                 </tr>
               </thead>
               <tbody>
-                {generatedLinks &&
-                  generatedLinks.map((link: any) => {
-                    const { label, message, memo } = parseURL(link);
+                {paymentData &&
+                  paymentData.map((link: any) => {
+                    const { label, url, amount } = link;
+                    const { reference } = parseURL(url);
+
                     return (
                       <>
                         <tr className=" bg-white  dark:bg-neutral-900">
@@ -59,17 +58,15 @@ const Table: FC<Props> = ({
                             {label}
                           </td>
                           <td className="max-w-3xl whitespace-nowrap py-4 px-6 text-sm font-medium text-gray-900 dark:text-white">
-                            {message}
+                            {amount}
                           </td>
-
                           <td className="max-w-3xl whitespace-nowrap py-4 px-6 text-sm font-medium text-gray-900 dark:text-white">
-                            {memo}
+                            {JSON.parse(JSON.stringify(reference))[0]}
                           </td>
-
                           <td className="whitespace-nowrap py-4 px-6 text-right text-sm font-medium">
                             <div
                               className="cursor-pointer text-blue-600 hover:underline dark:text-blue-500"
-                              onClick={() => handleOnClickShowQR(link)}
+                              onClick={() => handleOnClickShowQR(url)}
                             >
                               Show QR
                             </div>

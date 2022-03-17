@@ -1,14 +1,14 @@
 import { WalletContextState } from "@solana/wallet-adapter-react";
-import { Button, HeroButton, Text } from "components";
+import { Button, Text } from "components";
 import LegacyButton from "components/ui/Button";
 import React, { FC, useEffect, useState } from "react";
-import { QRCode } from "components/QRCode";
 import { PaymentStatus, usePayment } from "hooks/usePayment";
-import SolanaPayLogo from "components/Images/SolanaPayLogo";
 import BigNumber from "bignumber.js";
 import Image from "next/image";
 import { shortenAddress } from "utils";
-import { useConfig } from "hooks/useConfig";
+import { PaymentDetails } from "types";
+import { useUser } from "utils/useUser";
+import { insertPaymentDetails } from "utils/supabase-client";
 
 type Props = {
   wallet: WalletContextState;
@@ -27,16 +27,18 @@ const GenerateLink: FC<Props> = ({ wallet, connect, setGeneratedLinks }) => {
     reset,
     setMessage,
     setMemo,
+    setLabel,
   } = usePayment();
 
-  const { label } = useConfig();
-  console.log(url);
+  const { user } = useUser();
+
   const [amountInput, setAmountInput] = useState<string>(
     amount?.toString() ?? "",
   );
 
   const [localMessage, setLocalMessage] = useState<string>("");
   const [localMemo, setLocalMemo] = useState<string>("");
+  const [localLabel, setLocalLabel] = useState<string>("");
 
   const [loading, setLoading] = useState<boolean>(false);
   const [hash, setHash] = useState<string>("");
@@ -78,19 +80,25 @@ const GenerateLink: FC<Props> = ({ wallet, connect, setGeneratedLinks }) => {
     setLoading(false);
   };
 
-  const handleGenerateLink = () => {
+  const handleGenerateLink = async () => {
     setLoading(true);
+    reset();
     let newAmount = new BigNumber(amountInput ? amountInput : 0);
     setAmount(newAmount);
     setAmountInput(newAmount.toString());
-    setMessage(localMessage);
-    setMemo(localMemo);
-    const details = {
-      amount: newAmount,
-      message: localMessage,
-      memo: localMemo,
-      label,
+    setLabel(localLabel);
+
+    const paymentRow: PaymentDetails = {
+      amount: parseInt(amountInput),
+      label: localLabel,
+      url: url,
+      user_id: user.id,
     };
+    try {
+      await insertPaymentDetails(paymentRow);
+    } catch (error: any) {
+      setError(error);
+    }
     setGeneratedLinks((prevState: any) => [...prevState, url]);
     setLoading(false);
   };
@@ -147,10 +155,10 @@ const GenerateLink: FC<Props> = ({ wallet, connect, setGeneratedLinks }) => {
           </div>
         </div>
       ) : (
-        <>
-          <div className="mx-24 mb-3 flex items-center rounded-lg border ">
+        <div className="mt-10 flex flex-col items-center justify-center px-10">
+          <div className="mx-24 mb-3 flex w-full items-center rounded-lg border ">
             <input
-              className="w-1/2 rounded-l-lg bg-white px-6 py-3 text-lg font-bold dark:bg-dark"
+              className="w-full rounded-l-lg bg-white px-6 py-3 text-lg font-bold dark:bg-dark"
               value={amountInput}
               onChange={(e) => setAmountInput(e.target.value)}
             />
@@ -158,14 +166,15 @@ const GenerateLink: FC<Props> = ({ wallet, connect, setGeneratedLinks }) => {
               <Text className="text-lg font-extrabold">SOL</Text>
             </div>
           </div>
-          <div className="mx-24 mb-3 flex items-center rounded-lg border ">
+          <div className="mx-24 mb-3 flex w-full items-center rounded-lg border ">
             <input
               className="w-full rounded-lg bg-white px-6 py-3 text-lg font-bold dark:bg-dark"
               placeholder="label"
-              value={"Solpay"}
+              value={localLabel}
+              onChange={(e) => setLocalLabel(e.target.value)}
             />
           </div>
-          <div className="mx-24 mb-3 flex items-center rounded-lg border ">
+          {/* <div className="mx-24 mb-3 flex items-center rounded-lg border ">
             <input
               className="w-full rounded-lg bg-white px-6 py-3 text-lg font-bold dark:bg-dark"
               placeholder="message"
@@ -180,15 +189,19 @@ const GenerateLink: FC<Props> = ({ wallet, connect, setGeneratedLinks }) => {
               value={localMemo}
               onChange={(e) => setLocalMemo(e.target.value)}
             />
-          </div>
-          <div className="mx-24 mb-3 flex items-center">
-            <LegacyButton onClick={handleGenerateLink} loading={loading}>
+          </div> */}
+          <div className="mx-24 mb-3 flex w-full items-center justify-center">
+            <LegacyButton
+              className="w-full"
+              onClick={handleGenerateLink}
+              loading={loading}
+            >
               Generate Link
             </LegacyButton>
           </div>
 
           {/* <QRCode url={url} /> */}
-        </>
+        </div>
       )}
     </div>
   );
