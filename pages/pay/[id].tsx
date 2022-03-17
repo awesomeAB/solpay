@@ -16,7 +16,7 @@ const Pay = () => {
   useEffect(() => {
     const fetchData = async () => {
       const data = await getIndividualPayment(id);
-      if (data?.length > 0) {
+      if (data && data.length > 0) {
         setUrl(data[0]?.url);
         setIsUrlFetched(true);
       } else {
