@@ -1,7 +1,7 @@
 import { WalletContextState } from "@solana/wallet-adapter-react";
 import { Text } from "components";
 import LegacyButton from "components/ui/Button";
-import React, { FC, useEffect, useState } from "react";
+import React, { FC, Fragment, useEffect, useState } from "react";
 import { PaymentStatus, usePayment } from "hooks/usePayment";
 import BigNumber from "bignumber.js";
 import { PaymentDetails } from "types";
@@ -11,6 +11,7 @@ import { encodeURL } from "@solana/pay";
 import { PublicKey } from "@solana/web3.js";
 import { useConfig } from "hooks/useConfig";
 import SolanaPayLogo from "components/Images/SolanaPayLogo";
+import { Listbox, Transition } from "@headlessui/react";
 
 type Props = {
   wallet: WalletContextState;
@@ -43,6 +44,7 @@ const GenerateLink: FC<Props> = ({
   const [loading, setLoading] = useState<boolean>(false);
   const [hash, setHash] = useState<string>("");
   const [error, setError] = useState<string>("");
+  const [selected, setSelected] = useState("SOL");
   const { publicKey } = wallet;
 
   const handleChangeAmount = () => {
@@ -126,7 +128,50 @@ const GenerateLink: FC<Props> = ({
             onChange={(e) => setAmountInput(e.target.value)}
           />
           <div className="flex w-1/2 justify-center border-l">
-            <Text className="text-lg font-extrabold">SOL</Text>
+            <Listbox value={selected} onChange={setSelected}>
+              <div className="relative mt-1">
+                <Listbox.Button className="relative w-full cursor-default rounded-lg  py-1 pl-1 pr-10 text-left">
+                  <span className="block truncate">
+                    {" "}
+                    <Text className="text-lg font-extrabold">SOL</Text>
+                  </span>
+                </Listbox.Button>
+                <Transition
+                  as={Fragment}
+                  leave="transition ease-in duration-100"
+                  leaveFrom="opacity-100"
+                  leaveTo="opacity-0"
+                >
+                  <Listbox.Options className="absolute max-h-60 w-full overflow-auto rounded-md bg-neutral-700  text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm">
+                    <Listbox.Option
+                      className={({ active }) =>
+                        `relative cursor-default select-none   ${
+                          active ? "" : "text-neutral-900"
+                        }`
+                      }
+                      value={"SOL"}
+                    >
+                      <>
+                        <span
+                          className={`mr-4 block truncate ${
+                            selected ? "font-medium" : "font-normal"
+                          }`}
+                        >
+                          <span className="flex flex-col">
+                            <Text className="text-lg font-extrabold text-white opacity-50 ">
+                              USDC
+                            </Text>
+                            <span className="text-[8px] text-red-600">
+                              Coming Soon
+                            </span>
+                          </span>
+                        </span>
+                      </>
+                    </Listbox.Option>
+                  </Listbox.Options>
+                </Transition>
+              </div>
+            </Listbox>
           </div>
         </div>
         <div className="mx-24 mb-3 flex w-full items-center rounded-lg border ">
