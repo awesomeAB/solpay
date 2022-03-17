@@ -64,3 +64,9 @@ export const getTransactionDetails = async (payment_id: string) => {
   if(error) throw error
   return data
 }
+
+export const getIndividualPayment = async (id: string | any) => {
+  const {data, error} = await supabase.from<PaymentDetails>("payments").select("*").eq("id", id)
+  if(error) throw error
+  return data
+}
