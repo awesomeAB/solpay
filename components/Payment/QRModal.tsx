@@ -16,7 +16,6 @@ import { useConnection } from "@solana/wallet-adapter-react";
 import { useConfig } from "hooks/useConfig";
 import Image from "next/image";
 import Text from "components/Text";
-import Button from "components/Button";
 import { shortenAddress } from "utils";
 import { insertTransactionDetails } from "utils/supabase-client";
 
@@ -24,7 +23,7 @@ interface Props {
   isOpen: boolean;
   setIsOpen: (value: boolean) => void;
   callback?: () => void;
-  url: any;
+  url: string;
 }
 
 const QRModal: FC<Props> = ({ isOpen, setIsOpen, callback, url }) => {
@@ -34,7 +33,7 @@ const QRModal: FC<Props> = ({ isOpen, setIsOpen, callback, url }) => {
   const { requiredConfirmations } = useConfig();
   const { connection } = useConnection();
 
-  const { reference, amount, recipient, splToken } = parseURL(url);
+  const { reference, amount, recipient, splToken, label } = parseURL(url);
 
   const [loading, setLoading] = useState<boolean>(false);
   const [hash, setHash] = useState<string>("");
@@ -249,7 +248,7 @@ const QRModal: FC<Props> = ({ isOpen, setIsOpen, callback, url }) => {
                   />
                 </div>
                 <div className="flex flex-col items-center justify-center">
-                  <div className="mb-10">
+                  <div className="mb-5">
                     <SolanaPayLogo height={66} width={180} />
                   </div>
                   {loading ? (
@@ -288,7 +287,17 @@ const QRModal: FC<Props> = ({ isOpen, setIsOpen, callback, url }) => {
                       </a>
                     </div>
                   ) : (
-                    <QRCode url={url} />
+                    <div className="flex flex-col items-center justify-center">
+                      <div className="flex flex-col">
+                        <Text className="mb-2 text-base opacity-80">
+                          {label}
+                        </Text>
+                        <Text className="text-4xl font-extrabold">
+                          {amount?.toString()} SOL
+                        </Text>
+                      </div>
+                      <QRCode url={url} />
+                    </div>
                   )}
                 </div>
               </div>
