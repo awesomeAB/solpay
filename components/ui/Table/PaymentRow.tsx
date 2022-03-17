@@ -1,5 +1,6 @@
 import { parseURL } from "@solana/pay";
 import React, { FC, useEffect, useState } from "react";
+import toast from "react-hot-toast";
 import { PaymentDetails, TransactionDetails } from "types";
 import { shortenAddress } from "utils";
 import { getTransactionDetails } from "utils/supabase-client";
@@ -34,6 +35,20 @@ const PaymentRow: FC<Props> = ({
     handleGetTransactionData();
   }, [isQRModalOpen, parsedReference]);
 
+  const handleCopyLink = () => {
+    // copy to clipboard
+    toast.promise(
+      navigator.clipboard.writeText("https://solpay.so/pay/" + parsedReference),
+      {
+        loading: "Generating payment link...",
+        success: () => {
+          return <b>Copied to clipboard!</b>;
+        },
+        error: <b>Something went wrong, please try again :(</b>,
+      },
+    );
+  };
+
   return (
     <>
       <tr className="bg-white  dark:bg-neutral-900">
@@ -57,11 +72,19 @@ const PaymentRow: FC<Props> = ({
               {shortenAddress(transcationData.id, 6)}
             </a>
           ) : (
-            <div
-              className="cursor-pointer text-blue-600 hover:underline dark:text-blue-500"
-              onClick={() => handleOnClickShowQR(payment.url)}
-            >
-              Show QR
+            <div className="flex">
+              <div
+                className="mr-4 cursor-pointer text-blue-600 hover:underline dark:text-blue-500"
+                onClick={() => handleOnClickShowQR(payment.url)}
+              >
+                Show QR
+              </div>
+              <div
+                className="cursor-pointer text-blue-600 hover:underline dark:text-blue-500"
+                onClick={() => handleCopyLink()}
+              >
+                Copy Link
+              </div>
             </div>
           )}
         </td>
