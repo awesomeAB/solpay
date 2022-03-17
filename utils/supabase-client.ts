@@ -1,5 +1,5 @@
 import { createClient, User } from "@supabase/supabase-js";
-import { ProductWithPrice, UserDetails, PaymentDetails } from "types";
+import { ProductWithPrice, UserDetails, PaymentDetails, TransactionDetails } from "types";
 
 export const supabase = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL || "",
@@ -50,6 +50,23 @@ export const insertPaymentDetails = async (paymentRow: any) => {
 
 export const getPaymentDetails = async (user: User) => {
   const {data, error } =  await supabase.from<PaymentDetails>("payments").select("*").eq("user_id", user.id)
+  if(error) throw error
+  return data
+}
+
+export const insertTransactionDetails = async (transactionRow: any) => {
+  const { error } =  await supabase.from<TransactionDetails>("transactions").insert([transactionRow])
+  if(error) throw error
+}
+
+export const getTransactionDetails = async (payment_id: string) => {
+  const {data, error } =  await supabase.from<TransactionDetails>("transactions").select("*").eq("payment_id", payment_id)
+  if(error) throw error
+  return data
+}
+
+export const getIndividualPayment = async (id: string | any) => {
+  const {data, error} = await supabase.from<PaymentDetails>("payments").select("*").eq("id", id)
   if(error) throw error
   return data
 }

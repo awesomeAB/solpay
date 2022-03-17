@@ -6,9 +6,17 @@ import { useUser } from "utils/useUser";
 import c from "classnames";
 import { useTheme } from "next-themes";
 import { useRouter } from "next/router";
+import { useEffect } from "react";
 
 const ThemeToggle = () => {
   const { theme, setTheme } = useTheme();
+
+  useEffect(() => {
+    if (typeof window != undefined) {
+      const themeFromStorage = localStorage.getItem("theme");
+      if (themeFromStorage) setTheme(themeFromStorage);
+    }
+  }, []);
 
   return (
     <button onClick={() => setTheme(theme === "light" ? "dark" : "light")}>
