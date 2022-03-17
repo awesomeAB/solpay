@@ -1,4 +1,5 @@
 import { FC, useEffect, useState } from "react";
+import { Button, HeroButton, Text } from "components";
 import { QRCode } from "components/QRCode";
 import SolanaPayLogo from "components/Images/SolanaPayLogo";
 import { ConfirmedSignatureInfo, TransactionSignature } from "@solana/web3.js";
@@ -14,8 +15,6 @@ import {
 import { useConnection } from "@solana/wallet-adapter-react";
 import { useConfig } from "hooks/useConfig";
 import Image from "next/image";
-import Text from "components/Text";
-import Button from "components/Button";
 import { shortenAddress } from "utils";
 import { insertTransactionDetails } from "utils/supabase-client";
 
@@ -241,6 +240,16 @@ const PayPage: FC<Props> = ({ url }) => {
               </Text>
             </div>
             <QRCode url={url} />
+            <span className="mt-4 mb-8 font-bold">OR</span>
+            <div className="group relative">
+              <div className="absolute inset-0.5 rounded-xl bg-gradient-to-r from-solanaGreen to-purple-600 opacity-80 blur-lg filter transition duration-200 group-hover:opacity-100" />
+              <button
+                className="relative inset-0 flex w-full items-center justify-center rounded-xl bg-white py-4 px-16 leading-none focus:outline-none dark:bg-dark"
+                onClick={() => {}}
+              >
+                <SolanaPayLogo />
+              </button>
+            </div>
           </div>
         )}
       </div>

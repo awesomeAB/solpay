@@ -7,6 +7,7 @@ import LoadingDots from "components/ui/LoadingDots";
 const Pay = () => {
   const router = useRouter();
   const { id } = router.query;
+  console.log(id);
 
   const [url, setUrl] = useState<string>("");
   const [isUrlFetched, setIsUrlFetched] = useState<boolean>(false);
