@@ -40,7 +40,7 @@ const getNewAddress = (): PublicKey => {
 
 export const PaymentProvider: FC<PaymentProviderProps> = ({ children }) => {
   const { connection } = useConnection();
-  const { recipient, splToken, label, requiredConfirmations, connectWallet } =
+  const { recipient, splToken, requiredConfirmations, connectWallet } =
     useConfig();
   const { publicKey, sendTransaction } = useWallet();
 
@@ -51,6 +51,7 @@ export const PaymentProvider: FC<PaymentProviderProps> = ({ children }) => {
     getNewAddress(),
     INDEX_KEY,
   ]);
+  const [label, setLabel] = useState<string | undefined>("");
 
   const [signature, setSignature] = useState<TransactionSignature>();
   const [status, setStatus] = useState(PaymentStatus.New);
@@ -289,6 +290,8 @@ export const PaymentProvider: FC<PaymentProviderProps> = ({ children }) => {
         reset,
         generate,
         payWithWallet,
+        label,
+        setLabel,
       }}
     >
       {children}

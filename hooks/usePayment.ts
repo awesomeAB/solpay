@@ -28,6 +28,8 @@ export interface PaymentContextState {
   reset(): void;
   generate(): void;
   payWithWallet(): Promise<string>;
+  label:string | undefined;
+  setLabel(label: string | undefined): void;
 }
 
 export const PaymentContext = createContext<PaymentContextState>(
