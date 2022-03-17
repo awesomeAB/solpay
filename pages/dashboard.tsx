@@ -45,7 +45,7 @@ const Dashboard: NextPage = () => {
   const [paymentData, setPaymentData] = useState<any>([]);
 
   const [isQRModalOpen, setIsQRModalOpen] = useState<boolean>(false);
-  const [localUrl, setLocalUrl] = useState<any>("");
+  const [localUrl, setLocalUrl] = useState<string | null>(null);
 
   const wallet = useWallet();
 
@@ -108,17 +108,22 @@ const Dashboard: NextPage = () => {
             setIsOpen={setIsPaymentModalOpen}
             wallet={wallet}
             setGeneratedLinks={setGeneratedLinks}
+            setIsQRModalOpen={setIsQRModalOpen}
+            setLocalUrl={setLocalUrl}
           />
-          <QRModal
-            isOpen={isQRModalOpen}
-            setIsOpen={setIsQRModalOpen}
-            url={localUrl}
-          />
+          {localUrl && (
+            <QRModal
+              isOpen={isQRModalOpen}
+              setIsOpen={setIsQRModalOpen}
+              url={localUrl}
+            />
+          )}
         </div>
       </div>
       <div className="mt-10 flex items-center justify-center">
         <Table
           paymentData={paymentData}
+          isQRModalOpen={isQRModalOpen}
           setLocalUrl={setLocalUrl}
           setIsQRModalOpen={setIsQRModalOpen}
         />

@@ -105,9 +105,12 @@ export type Confirmations =
   | 32;
 
   export interface PaymentDetails {
-    id?: string /* primary key (uuid is automatically generated)  */;
-    label: string;
+    id: string /* primary key (uuid is automatically generated)  */;
     url: string;
-    amount: number;
     user_id: string; /*foreign key */
+  }
+
+  export interface TransactionDetails {
+    id: string /* primary key (uuid is automatically generated)  */;
+    payment_id: string; /*foreign key */
   }

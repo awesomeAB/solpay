@@ -9,6 +9,8 @@ interface Props {
   callback?: () => void;
   wallet: WalletContextState;
   setGeneratedLinks: any;
+  setIsQRModalOpen: any;
+  setLocalUrl: any;
 }
 
 const PaymentLink: FC<Props> = ({
@@ -17,6 +19,8 @@ const PaymentLink: FC<Props> = ({
   callback,
   wallet,
   setGeneratedLinks,
+  setIsQRModalOpen,
+  setLocalUrl,
 }) => {
   const closeButtonRef = useRef(null);
   const [showConnectModal, setShowConnectModal] = useState<boolean>(false);
@@ -74,6 +78,9 @@ const PaymentLink: FC<Props> = ({
                   wallet={wallet}
                   connect={() => setShowConnectModal(true)}
                   setGeneratedLinks={setGeneratedLinks}
+                  setIsOpen={setIsOpen}
+                  setIsQRModalOpen={setIsQRModalOpen}
+                  setLocalUrl={setLocalUrl}
                 />
               </div>
             </div>
