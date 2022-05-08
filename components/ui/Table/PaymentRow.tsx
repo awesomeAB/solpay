@@ -16,7 +16,7 @@ const PaymentRow: FC<Props> = ({
   isQRModalOpen,
   handleOnClickShowQR,
 }) => {
-  const { label, amount, reference } = parseURL(payment.url);
+  const { label, amount, reference, splToken } = parseURL(payment.url);
   const parsedReference = JSON.parse(JSON.stringify(reference))[0];
 
   const [transcationData, setTransactionData] = useState<
@@ -56,7 +56,7 @@ const PaymentRow: FC<Props> = ({
           {label}
         </td>
         <td className="max-w-3xl whitespace-nowrap py-4 px-6 text-sm font-medium text-gray-900 dark:text-white">
-          {amount?.toString()}
+          {amount?.toString()} {splToken ? "USDC" : "SOL"}
         </td>
         <td className="max-w-3xl whitespace-nowrap py-4 px-6 text-sm font-medium text-gray-900 dark:text-white">
           {parsedReference}

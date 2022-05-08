@@ -293,7 +293,7 @@ const QRModal: FC<Props> = ({ isOpen, setIsOpen, callback, url }) => {
                           {label}
                         </Text>
                         <Text className="text-4xl font-extrabold">
-                          {amount?.toString()} SOL
+                          {amount?.toString()} {splToken ? "USDC" : "SOL"}
                         </Text>
                       </div>
                       <QRCode url={url} />
