@@ -236,7 +236,7 @@ const PayPage: FC<Props> = ({ url }) => {
             <div className="flex flex-col items-center justify-center">
               <Text className="mb-2 text-base opacity-80">{label}</Text>
               <Text className="text-2xl font-extrabold">
-                {amount?.toString()} SOL
+                {amount?.toString()} {splToken ? "USDC" : "SOL"}
               </Text>
             </div>
             <QRCode url={url} />

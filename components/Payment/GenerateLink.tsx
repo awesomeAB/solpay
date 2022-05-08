@@ -30,10 +30,12 @@ const GenerateLink: FC<Props> = ({
   setIsQRModalOpen,
   setLocalUrl,
 }) => {
+  const SPL = [{ name: "SOL" }, { name: "USDC" }];
+
   const { payWithWallet, status, signature, reset, reference } = usePayment();
 
   const { user, userDetails } = useUser();
-  const { splToken } = useConfig();
+  // const { splToken } = useConfig();
 
   const [amountInput, setAmountInput] = useState<string>("");
 
@@ -44,7 +46,7 @@ const GenerateLink: FC<Props> = ({
   const [loading, setLoading] = useState<boolean>(false);
   const [hash, setHash] = useState<string>("");
   const [error, setError] = useState<string>("");
-  const [selected, setSelected] = useState("SOL");
+  const [selected, setSelected] = useState(SPL[1]);
   const { publicKey } = wallet;
 
   const handleChangeAmount = () => {
@@ -87,15 +89,20 @@ const GenerateLink: FC<Props> = ({
     let newAmount = new BigNumber(amountInput ? amountInput : 0);
     setAmountInput(newAmount.toString());
 
+    const splToken = new PublicKey(
+      "EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v",
+    );
+
     const url = encodeURL({
       recipient: new PublicKey(userDetails.wallet ?? ""),
       amount: newAmount,
-      splToken,
+      splToken: selected.name === "USDC" ? splToken : undefined,
       reference,
       label: localLabel,
       message: "",
       memo: "",
     });
+
     const paymentRow: PaymentDetails = {
       id: JSON.parse(JSON.stringify(reference))[0],
       url,
@@ -127,47 +134,49 @@ const GenerateLink: FC<Props> = ({
             value={amountInput}
             onChange={(e) => setAmountInput(e.target.value)}
           />
-          <div className="flex w-1/2 justify-center border-l">
+          <div className="flex w-1/2 items-center justify-center border-l">
             <Listbox value={selected} onChange={setSelected}>
               <div className="relative mt-1">
-                <Listbox.Button className="relative w-full cursor-default rounded-lg  py-1 pl-1 pr-10 text-left">
+                <Listbox.Button className="relative w-full cursor-default rounded-lg bg-neutral-800 py-1 px-3 text-center ">
                   <span className="block truncate">
-                    {" "}
-                    <Text className="text-lg font-extrabold">SOL</Text>
+                    <Text className="text-lg font-extrabold">
+                      {selected.name}
+                    </Text>
                   </span>
                 </Listbox.Button>
+
                 <Transition
                   as={Fragment}
                   leave="transition ease-in duration-100"
                   leaveFrom="opacity-100"
                   leaveTo="opacity-0"
                 >
-                  <Listbox.Options className="absolute max-h-60 w-full overflow-auto rounded-md bg-neutral-700  text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm">
-                    <Listbox.Option
-                      className={({ active }) =>
-                        `relative cursor-default select-none   ${
-                          active ? "" : "text-neutral-900"
-                        }`
-                      }
-                      value={"SOL"}
-                    >
-                      <>
-                        <span
-                          className={`mr-4 block truncate ${
-                            selected ? "font-medium" : "font-normal"
-                          }`}
-                        >
-                          <span className="flex flex-col">
-                            <Text className="text-lg font-extrabold text-white opacity-50 ">
-                              USDC
-                            </Text>
-                            <span className="text-[8px] text-red-600">
-                              Coming Soon
+                  <Listbox.Options className="absolute mt-1 max-h-60 w-full overflow-auto rounded-md bg-neutral-800 py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm">
+                    {SPL.map((token, tokenIdx) => (
+                      <Listbox.Option
+                        key={tokenIdx}
+                        className={({ active }) =>
+                          `relative cursor-default select-none py-2  ${
+                            active
+                              ? "bg-neutral-100 text-neutral-900"
+                              : "text-neutral-300"
+                          }`
+                        }
+                        value={token}
+                      >
+                        {({ selected }) => (
+                          <>
+                            <span
+                              className={`block truncate  ${
+                                selected ? "font-medium" : "font-normal"
+                              }`}
+                            >
+                              {token.name}
                             </span>
-                          </span>
-                        </span>
-                      </>
-                    </Listbox.Option>
+                          </>
+                        )}
+                      </Listbox.Option>
+                    ))}
                   </Listbox.Options>
                 </Transition>
               </div>
